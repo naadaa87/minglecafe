@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 도메인 연결 후 REPLACE-YOUR-DOMAIN 을 실제 도메인으로 일괄 변경해 주세요. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://REPLACE-YOUR-DOMAIN/</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/local.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/groups.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/global.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/events.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/store.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/brand.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/startup.html</loc></url>
+  <url><loc>https://REPLACE-YOUR-DOMAIN/partner.html</loc></url>
+</urlset>
