@@ -2,3 +2,7 @@
 name = "mingle-cafe"
 compatibility_date = "2026-07-01"
 pages_build_output_dir = "site"
+
+[[kv_namespaces]]
+binding = "MINGLE_KV"
+id = "afe2cb4cf5a843ee9053f562165476d8"
