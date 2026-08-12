@@ -16,4 +16,4 @@ id = "afe2cb4cf5a843ee9053f562165476d8"
 [[d1_databases]]
 binding = "MINGLE_DB"
 database_name = "mingle-db"
-database_id = "PUT-YOUR-D1-DATABASE-ID-HERE"
+database_id = "7ae0fc9c-2bbc-4443-a6a5-aada36afa7e9"
