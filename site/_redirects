@@ -1,0 +1,12 @@
+# 개편으로 합쳐진 페이지 — 기존 링크가 끊기지 않도록 넘겨 줍니다.
+/local.html    /community.html#board    301
+/groups.html   /community.html#meetups  301
+/events.html   /community.html#events   301
+/local         /community.html#board    301
+/groups        /community.html#meetups  301
+/events        /community.html#events   301
+/menu          /menu.html               301
+/community     /community.html          301
+/store         /store.html              301
+/startup       /startup.html            301
+/en            /en/                     301

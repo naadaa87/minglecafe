@@ -1,8 +1,19 @@
-# Cloudflare Pages 설정 — `npx wrangler pages deploy` 한 줄로 배포할 수 있게 합니다.
+# Cloudflare Pages 설정
+# 중요: 이 파일이 저장소에 있으면 대시보드에서 추가한 바인딩은 무시됩니다.
+#       KV와 D1은 반드시 아래에 직접 적어야 합니다.
+
 name = "mingle-cafe"
 compatibility_date = "2026-07-01"
 pages_build_output_dir = "site"
 
+# 게시판·문의·매장상태 (기존에 쓰던 것 그대로)
 [[kv_namespaces]]
 binding = "MINGLE_KV"
 id = "afe2cb4cf5a843ee9053f562165476d8"
+
+# 회원·모임·체크인·신고
+# database_id 는 Cloudflare 대시보드 → Storage & Databases → D1 → mingle-db 에서 복사해 넣으세요.
+[[d1_databases]]
+binding = "MINGLE_DB"
+database_name = "mingle-db"
+database_id = "PUT-YOUR-D1-DATABASE-ID-HERE"

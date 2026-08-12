@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /account/
+Disallow: /go/
 
-# 도메인 연결 후 아래 주소를 실제 도메인으로 바꿔 주세요.
-Sitemap: https://REPLACE-YOUR-DOMAIN/sitemap.xml
+Sitemap: https://hellomingle.kr/sitemap.xml

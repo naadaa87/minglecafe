@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>매장 안내 — 밍글 건대화양점</title>
-  <meta name="description" content="서울 광진구 화양동 10-1, 24시간 무인 운영. 좌석, 이용 방법, 오시는 길을 안내합니다.">
-  <link rel="canonical" href="https://hellomingle.kr/store.html">
+  <title>밍글패스 — 방문 도장과 회원 등급</title>
+  <meta name="description" content="매장에 오신 날 도장을 하나 찍습니다. 열 개를 모으면 음료 한 잔. 위치를 계속 수집하지 않고 매장 QR로만 기록됩니다.">
+  <link rel="canonical" href="https://hellomingle.kr/pass.html">
   <meta property="og:site_name" content="MINGLE 밍글">
-  <meta property="og:title" content="매장 안내 — 밍글 건대화양점">
-  <meta property="og:description" content="서울 광진구 화양동 10-1, 24시간 무인 운영. 좌석, 이용 방법, 오시는 길을 안내합니다.">
+  <meta property="og:title" content="밍글패스 — 방문 도장과 회원 등급">
+  <meta property="og:description" content="매장에 오신 날 도장을 하나 찍습니다. 열 개를 모으면 음료 한 잔. 위치를 계속 수집하지 않고 매장 QR로만 기록됩니다.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hellomingle.kr/store.html">
+  <meta property="og:url" content="https://hellomingle.kr/pass.html">
   <meta property="og:image" content="https://hellomingle.kr/img/hero.webp">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,6 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="/css/main.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"밍글 무인카페 건대화양점","alternateName":"MINGLE","url":"https://hellomingle.kr","image":"https://hellomingle.kr/img/hero.webp","description":"건대·화양동의 24시간 무인 디저트카페. 넓은 좌석과 동네 커뮤니티를 함께 운영합니다.","address":{"@type":"PostalAddress","streetAddress":"능동로13길 39","addressLocality":"광진구","addressRegion":"서울특별시","addressCountry":"KR"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}],"servesCuisine":"Dessert","publicAccess":true}</script>
   <script>
     /* 새벽 모드: 밤 10시~오전 6시 자동. 사용자가 고른 값이 있으면 그 값이 우선입니다. */
     (function(){try{
@@ -49,7 +48,7 @@
       <a href="/menu.html">메뉴</a>
       <a href="/community.html">커뮤니티</a>
       <a href="/global.html">글로벌</a>
-      <a href="/store.html" aria-current="page">매장</a>
+      <a href="/store.html">매장</a>
       <a href="/startup.html">창업·제휴</a>
     </nav>
     <div class="header-cta">
@@ -92,96 +91,85 @@
 </div>
 
 <main id="main">
+
 <section class="page-head">
-    <div class="wrap">
-      <span class="eyebrow">매장 · 직영점</span>
-      <h1>밍글 건대화양점</h1>
-      <p class="lead">서울 광진구 화양동 10-1. 약 30평의 무인 매장이 24시간 열려 있어요. 새벽 세 시에 와도 불이 켜져 있고, 디저트가 채워져 있습니다.</p>
-    </div>
-  </section>
+  <div class="wrap">
+    <span class="eyebrow">밍글패스</span>
+    <h1>오면 도장, 열 개면 한 잔</h1>
+    <p class="lead">매장에 오신 날 도장을 하나 찍습니다. 하루에 한 번만 되고, 열 개를 모으면 음료 한 잔을 드려요. 위치를 계속 수집하지 않고, 매장 QR을 찍었을 때만 기록됩니다.</p>
+  </div>
+</section>
 
-  <section class="section" style="padding-top:16px">
-    <div class="wrap">
-      <div class="grid grid--4" style="gap:12px">
-        <figure class="figure"><img src="/img/real-ext.webp" alt="밍글 건대화양점 입구 실제 사진" width="1000" height="700"><figcaption>매장 입구</figcaption></figure>
-        <figure class="figure"><img src="/img/real-machine.webp" alt="커피 머신과 무인 시스템 실제 사진" width="1000" height="700" loading="lazy"><figcaption>커피 머신 · 무인 시스템</figcaption></figure>
-        <figure class="figure"><img src="/img/real-shelf.webp" alt="디저트와 간식 진열대, 냉장고 실제 사진" width="1000" height="700" loading="lazy"><figcaption>디저트 · 간식 진열</figcaption></figure>
-        <figure class="figure"><img src="/img/real-seat.webp" alt="테이블과 소파가 있는 좌석 공간 실제 사진" width="1000" height="700" loading="lazy"><figcaption>좌석 공간</figcaption></figure>
+<section class="section" style="padding-top:16px">
+  <div class="wrap" data-pass>
+
+    <div class="card" data-pass-guest hidden>
+      <h2 style="font-size:1.2rem">먼저 로그인해 주세요</h2>
+      <p>도장은 회원 계정에 쌓입니다. 기기를 바꾸거나 브라우저를 지워도 그대로 남아요.</p>
+      <div class="chip-row" style="margin-top:16px">
+        <a class="btn btn--primary" href="/account/login.html?next=%2Fpass.html">로그인</a>
+        <a class="btn btn--ghost" href="/account/signup.html">회원가입</a>
       </div>
-      <p class="small" style="margin-top:10px">네 장 모두 건대화양점 실제 매장 사진입니다.</p>
     </div>
-  </section>
 
-  <section class="section section--beige">
-    <div class="wrap two-col">
-      <div>
-        <span class="eyebrow">이용 방법</span>
-        <h2>처음이어도 3분이면 충분해요</h2>
-        <div style="margin-top:20px">
-          <div class="step">
-            <div class="step__num">1</div>
-            <div><h3>골라요</h3><p>냉장 쇼케이스와 선반에서 디저트를, 메뉴판에서 음료를 고르세요. 가격은 전부 붙어 있어요.</p></div>
+    <div data-pass-signed hidden>
+      <div class="two-col">
+        <div class="card">
+          <div class="row-between" style="margin-bottom:16px">
+            <div>
+              <h2 style="font-size:1.2rem;margin:0"><span data-me-nick></span>님의 도장판</h2>
+              <p class="small" style="margin:0">지금까지 <b data-total-count>0</b>번 오셨어요</p>
+            </div>
+            <span class="tbadge tbadge--local">매장 인증</span>
           </div>
-          <div class="step">
-            <div class="step__num">2</div>
-            <div><h3>결제해요</h3><p>키오스크에서 카드나 간편결제로. 현금은 받지 않아요.</p></div>
+          <div class="stamps" data-stamps></div>
+          <p style="margin:18px 0 0"><b data-stamp-count>0</b> / 10</p>
+          <div data-pass-msg style="margin-top:14px"></div>
+          <button class="btn btn--primary" data-checkin-btn style="margin-top:16px;width:100%">오늘 방문 도장 찍기</button>
+          <button class="btn btn--ghost" data-redeem-btn hidden style="margin-top:10px;width:100%">음료 받았어요 (도장판 비우기)</button>
+          <p class="field-hint">매장 안에서 QR을 찍고 들어오시면 이 버튼이 바로 눌립니다. 하루 한 번만 적립돼요.</p>
+        </div>
+
+        <div>
+          <div class="card">
+            <h3>회원 등급</h3>
+            <p class="small">활동에 따라 할 수 있는 일이 조금씩 늘어납니다. 개인정보를 더 받지 않고, 실제 참여 기록만 봅니다.</p>
+            <table class="table-simple" style="margin-top:10px">
+              <tr><th>회원</th><td>글쓰기, 댓글, 모임 신청</td></tr>
+              <tr><th>매장 인증</th><td>매장에서 한 번 체크인하면 자동으로 붙어요</td></tr>
+              <tr><th>신뢰 회원</th><td>모임에 세 번 참석하면 직접 모임을 열 수 있어요</td></tr>
+              <tr><th>호스트</th><td>운영자 승인 후 공식 모임을 맡습니다</td></tr>
+            </table>
           </div>
-          <div class="step">
-            <div class="step__num">3</div>
-            <div><h3>픽업해요</h3><p>음료는 머신에서 바로 내려요. 자리로 가져가서 드셔도, 포장해 가셔도 됩니다.</p></div>
+          <div class="card" style="margin-top:16px">
+            <h3>도장 규칙</h3>
+            <ul class="check-list" style="margin-top:10px">
+              <li>하루 한 번만 찍힙니다.</li>
+              <li>매장 QR로만 적립돼요. 캡처한 QR은 안 됩니다.</li>
+              <li>열 개를 채우면 매장에서 이 화면을 보여 주세요.</li>
+              <li>도장을 쓰면 판이 다시 처음부터 시작합니다.</li>
+            </ul>
           </div>
         </div>
       </div>
-      <div>
-        <h2 style="font-size:1.2rem">알아 두면 좋은 것</h2>
-        <ul class="info-list">
-          <li><span class="k">운영시간</span><span class="v">24시간 · 연중무휴 · 무인</span></li>
-          <li><span class="k">결제</span><span class="v">카드 · 간편결제 (현금 불가)</span></li>
-          <li><span class="k">좌석</span><span class="v">창가 콘센트 자리, 테이블, 소파석</span></li>
-          <li><span class="k">이런 분께</span><span class="v">밤샘 공부, 조용한 작업, 늦은 간식, 소모임</span></li>
-          <li><span class="k">부탁</span><span class="v">다음 사람을 위해 자리 정리만 부탁드려요</span></li>
-        </ul>
-      </div>
     </div>
-  </section>
 
-  <section class="section">
-    <div class="wrap two-col">
-      <div>
-        <span class="eyebrow">디저트</span>
-        <h2>커피만 있는 무인카페가 아니에요</h2>
-        <p>선반에는 쿠키·브라우니·휘낭시에 같은 상온 디저트, 냉장고에는 푸딩·요거트·조각케이크. 음료와 같이 집어 가기 좋게 전부 낱개 포장으로 준비합니다.</p>
-        <p>그날의 실제 라인업은 매장에서 확인해 주세요. 신상품과 품절 소식은 <a href="/community.html#board">밍글보드 공지</a>로 올릴게요.</p>
-      </div>
-      <div class="grid grid--2" style="gap:12px">
-        <figure class="figure"><img src="/img/fridge.webp" alt="냉장 디저트 진열 콘셉트 이미지" width="1200" height="800" loading="lazy"><figcaption>진열 연출 콘셉트 이미지</figcaption></figure>
-        <figure class="figure"><img src="/img/packaging.webp" alt="밍글 패키지 디저트 콘셉트 이미지" width="1200" height="800" loading="lazy"><figcaption>패키지 연출 콘셉트 이미지</figcaption></figure>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section section--beige">
-    <div class="wrap two-col">
-      <div>
-        <span class="eyebrow">오시는 길</span>
-        <h2>지도 앱이 제일 정확해요</h2>
-        <ul class="info-list">
-          <li><span class="k">지번</span><span class="v">서울특별시 광진구 화양동 10-1</span></li>
-          <li><span class="k">도로명</span><span class="v">서울 광진구 능동로13길 39</span></li>
-          <li><span class="k">지하철</span><span class="v">2·7호선 건대입구역에서 화양동 방면 도보권</span></li>
-        </ul>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-          <a class="btn btn--primary" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B4%91%EC%A7%84%EA%B5%AC%20%EB%8A%A5%EB%8F%99%EB%A1%9C13%EA%B8%B8%2039" target="_blank" rel="noopener">네이버 지도로 길찾기</a>
-          <a class="btn btn--ghost" href="https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EA%B4%91%EC%A7%84%EA%B5%AC%20%EB%8A%A5%EB%8F%99%EB%A1%9C13%EA%B8%B8%2039" target="_blank" rel="noopener">카카오맵으로 길찾기</a>
-        </div>
-      </div>
-      <div class="card">
-        <h3>불편한 점을 발견하셨나요?</h3>
-        <p style="font-size:.94rem">품절, 기기 오류, 청소가 필요한 자리 — 뭐든 알려 주시면 빨리 고칠게요. 무인 매장은 알려 주시는 분들 덕분에 깨끗하게 유지됩니다.</p>
-        <a class="btn btn--navy btn--sm" href="mailto:spaceblank0100@gmail.com?subject=%5B%EB%A7%A4%EC%9E%A5%20%ED%94%BC%EB%93%9C%EB%B0%B1%5D%20%EA%B1%B4%EB%8C%80%ED%99%94%EC%96%91%EC%A0%90">매장 피드백 보내기</a>
-      </div>
+<div class="scallop scallop--beige-up" aria-hidden="true"></div>
+<section class="section section--beige" style="padding-top:20px">
+  <div class="wrap">
+    <span class="eyebrow">매장에서</span>
+    <h2>QR은 세 군데에 있어요</h2>
+    <div class="grid grid--3" style="margin-top:18px">
+      <article class="card"><h3>출입문 안쪽</h3><p style="font-size:.93rem;margin:0">처음 오신 분을 위한 이용 안내와 도장이 함께 있습니다.</p></article>
+      <article class="card"><h3>키오스크 옆</h3><p style="font-size:.93rem;margin:0">주문하면서 바로 찍기 좋아요. 결제 방법 안내도 같이 나옵니다.</p></article>
+      <article class="card"><h3>테이블 위</h3><p style="font-size:.93rem;margin:0">앉아서 천천히. 지금 열려 있는 모임이 함께 보입니다.</p></article>
     </div>
-  </section>
+  </div>
+</section>
+
 </main>
 
 <footer class="site-footer">
@@ -235,7 +223,7 @@
     <span>스캔</span>
   </a>
   <a href="/community.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="3.5"/><path d="M22 20v-2a4 4 0 0 0-3-3.9"/></svg><span>커뮤니티</span></a>
-  <a href="/pass.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 14.5 9H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/></svg><span>마이밍글</span></a>
+  <a href="/pass.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 14.5 9H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/></svg><span>마이밍글</span></a>
 </nav>
 
 <script src="/js/main.js" defer></script>
