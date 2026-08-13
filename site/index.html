@@ -24,7 +24,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/main.css?v=20260813b">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"밍글 무인카페 건대화양점","alternateName":"MINGLE","url":"https://hellomingle.kr","image":"https://hellomingle.kr/img/hero.webp","description":"건대·화양동의 24시간 무인 디저트카페. 넓은 좌석과 동네 커뮤니티를 함께 운영합니다.","address":{"@type":"PostalAddress","streetAddress":"능동로13길 39","addressLocality":"광진구","addressRegion":"서울특별시","addressCountry":"KR"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}],"servesCuisine":"Dessert","publicAccess":true}</script>
   <script>
     /* 새벽 모드: 밤 10시~오전 6시 자동. 사용자가 고른 값이 있으면 그 값이 우선입니다. */
@@ -95,15 +95,23 @@
 
 <section class="hero">
   <div class="wrap">
-    <div>
+    <div class="hero__copy">
       <span class="eyebrow">건대 · 화양동 · 24시간</span>
       <h1>동네에서 같이할 사람을<br><span class="accent">찾는 가장 편한 카페</span></h1>
       <p class="lead">새벽에도 불이 켜져 있는 30평짜리 디저트 카페가 있습니다. 혼자 와서 공부하다 가도 되고, 쿠키 하나 사서 바로 나가도 되고, 여기서 만난 사람들과 스터디를 꾸려도 됩니다. 그게 밍글이에요.</p>
+    </div>
+    <div class="hero-visual">
+      <figure class="hero-figure">
+        <img class="main-img" src="/img/hero.webp" alt="밝은 조명 아래 넓은 좌석과 디저트 진열대가 보이는 밍글 매장 콘셉트 이미지" width="1500" height="1000" fetchpriority="high">
+      </figure>
+      <div class="float-card"><span class="dot"></span>지금도 열려 있어요 · 24시간 무인</div>
+    </div>
+    <div class="hero__actions">
       <div class="hero-cta">
         <a class="btn btn--primary" href="/community.html">모임 찾아보기</a>
         <a class="btn btn--ghost" href="/menu.html">오늘의 메뉴</a>
       </div>
-      <div class="status-card" data-status-card data-level="unknown" style="margin-top:26px;max-width:460px">
+      <div class="status-card" data-status-card data-level="unknown">
         <span class="status-card__dot"></span>
         <span class="status-card__txt">
           <b data-status-title>24시간 열려 있어요</b>
@@ -112,10 +120,6 @@
         <a class="btn btn--ghost btn--sm status-card__more" href="/store.html">매장</a>
       </div>
       <p class="hero-note">서울 광진구 화양동 10-1 · 매장 상태는 운영자가 직접 확인해 올립니다</p>
-    </div>
-    <div class="hero-visual">
-      <img class="main-img" src="/img/hero.webp" alt="밝은 조명 아래 넓은 좌석과 디저트 진열대가 보이는 밍글 매장 콘셉트 이미지" width="1200" height="800" fetchpriority="high">
-      <div class="float-card"><span class="dot"></span>지금도 열려 있어요 · 24시간 무인</div>
     </div>
   </div>
 </section>
@@ -178,7 +182,7 @@
       <p>밍글 건대화양점은 약 30평입니다. 동네 무인카페치고는 꽤 넓은 편이라, 노트북 펴는 자리와 수다 떠는 자리가 자연스럽게 나뉘어요.</p>
       <p>냉장고에는 푸딩과 케이크, 선반에는 쿠키와 브라우니. 커피 머신만 덩그러니 있는 무인카페와는 시작부터 다르게 만들었습니다. 늦은 밤 창가 자리에서 노트북을 펴 보면 왜 여기가 오래 앉게 되는 곳인지 알게 되실 거예요.</p>
       <a class="btn btn--primary" href="/store.html" style="margin-top:8px">매장 자세히 보기</a>
-      <p class="small" style="margin-top:18px">아래 공간·진열 이미지는 브랜드 콘셉트 컷이에요. 실제 매장 사진은 <a href="/store.html">매장 페이지</a>에 있습니다.</p>
+      <p class="small" style="margin-top:18px">매장 사진과 이용 방법은 <a href="/store.html">매장 페이지</a>에서 더 보실 수 있어요.</p>
     </div>
     <div class="grid grid--2">
       <figure class="figure"><img src="/img/space-night.webp" alt="야간 창가 좌석 콘셉트 이미지" width="800" height="600" loading="lazy"></figure>
@@ -204,9 +208,9 @@
         <a class="chip" href="https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EA%B4%91%EC%A7%84%EA%B5%AC%20%EB%8A%A5%EB%8F%99%EB%A1%9C13%EA%B8%B8%2039" target="_blank" rel="noopener">카카오맵</a>
       </div>
     </div>
-    <figure class="figure">
-      <img src="/img/real-seat.webp" alt="밍글 건대화양점 좌석 공간 실제 사진" width="1200" height="800" loading="lazy">
-      <figcaption>건대화양점 실제 매장 사진</figcaption>
+    <figure class="figure figure--4x3">
+      <img src="/img/store-exterior.webp" alt="밍글 무인 디저트카페 건대화양점 외관과 간판" width="1200" height="900" loading="lazy">
+      <figcaption>밍글 무인 디저트카페 매장 이미지</figcaption>
     </figure>
   </div>
 </section>
@@ -280,6 +284,6 @@
   <a href="/pass.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 14.5 9H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/></svg><span>마이밍글</span></a>
 </nav>
 
-<script src="/js/main.js" defer></script>
+<script src="/js/main.js?v=20260813b" defer></script>
 </body>
 </html>
