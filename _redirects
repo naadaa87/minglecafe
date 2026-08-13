@@ -1,7 +1,0 @@
-# 개편으로 합쳐진 페이지만 넘겨 줍니다.
-/local.html    /community    301
-/groups.html   /community    301
-/events.html   /community    301
-/local         /community    301
-/groups        /community    301
-/events        /community    301

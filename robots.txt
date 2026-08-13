@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-Disallow: /account/
-Disallow: /go/
-
-Sitemap: https://hellomingle.kr/sitemap.xml
