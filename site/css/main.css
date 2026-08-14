@@ -519,3 +519,39 @@ p{margin:0 0 1em}
 .table-simple{width:100%;border-collapse:collapse;font-size:.92rem}
 .table-simple th,.table-simple td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .table-simple th{color:var(--navy);font-weight:700;white-space:nowrap}
+
+/* ---------- 카카오톡 문의 (모든 페이지 고정 버튼) ---------- */
+.kakao-fab{
+  position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:55;
+  display:inline-flex;align-items:center;gap:8px;
+  background:#FEE500;color:#181600;border-radius:999px;
+  padding:12px 18px 12px 15px;font-weight:800;font-size:.92rem;
+  box-shadow:0 10px 26px rgba(0,0,0,.18);border:1px solid rgba(0,0,0,.06);
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.kakao-fab:hover{text-decoration:none;color:#181600;transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.kakao-fab:active{transform:translateY(0)}
+.kakao-fab svg{width:20px;height:20px;flex:none}
+.kakao-fab__txt{white-space:nowrap}
+@media(min-width:960px){
+  .kakao-fab{right:24px;bottom:24px;padding:14px 22px 14px 18px;font-size:.96rem}
+}
+@media(max-width:400px){
+  .kakao-fab{padding:11px 15px 11px 13px;font-size:.88rem}
+}
+
+/* ---------- 문의 안내 박스 ---------- */
+.ask-box{
+  background:linear-gradient(180deg,#FFFDF6 0%,#FFF8E3 100%);
+  border:1px solid #F3E4A8;border-radius:var(--card-r);
+  padding:24px;display:grid;gap:14px;
+}
+.ask-box h3{margin:0;font-size:1.12rem;color:var(--navy)}
+.ask-box p{margin:0;font-size:.94rem;color:var(--body)}
+.ask-box ul{margin:0;padding-left:18px;font-size:.9rem;color:var(--mute);display:grid;gap:5px}
+.btn--kakao{background:#FEE500;color:#181600;border:1px solid rgba(0,0,0,.06);font-weight:800}
+.btn--kakao:hover{background:#F5DC00;color:#181600}
+.btn--kakao svg{width:18px;height:18px;margin-right:7px}
+@media(min-width:720px){
+  .ask-box{padding:28px 30px}
+}
