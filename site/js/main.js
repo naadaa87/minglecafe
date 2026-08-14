@@ -11,8 +11,14 @@ const SITE = {
   supportEmail: "spaceblank0100@gmail.com",
   partnershipEmail: "spaceblank0100@gmail.com",
   instagram: "",    // 예: https://instagram.com/mingle_cafe
-  kakaoChannel: "", // 예: http://pf.kakao.com/_xxxxx
+  kakaoChannel: "http://pf.kakao.com/_AxgYMn/friend",
 };
+
+/* 예전 버전의 새벽(네이비) 화면 설정이 브라우저에 남아 있으면 지웁니다. */
+try {
+  localStorage.removeItem("mg-theme");
+  document.documentElement.removeAttribute("data-theme");
+} catch {}
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -49,17 +55,6 @@ const el = (tag, cls, text) => {
   if (text != null) n.textContent = text;   // textContent — HTML 삽입 차단
   return n;
 };
-
-/* ---------- 화면 밝기 ---------- */
-(function () {
-  const btn = $("[data-theme-toggle]");
-  if (!btn) return;
-  btn.addEventListener("click", () => {
-    const cur = document.documentElement.getAttribute("data-theme") === "dawn" ? "day" : "dawn";
-    document.documentElement.setAttribute("data-theme", cur);
-    try { localStorage.setItem("mg-theme", cur); } catch {}
-  });
-})();
 
 /* ---------- 모바일 메뉴 ---------- */
 (function () {
