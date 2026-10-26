@@ -4,5 +4,7 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /account/
 Disallow: /go/
+Disallow: /_tpl/
 
 Sitemap: https://hellomingle.kr/sitemap.xml
+Sitemap: https://hellomingle.kr/news/sitemap.xml

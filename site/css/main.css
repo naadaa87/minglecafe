@@ -555,3 +555,147 @@ p{margin:0 0 1em}
 @media(min-width:720px){
   .ask-box{padding:28px 30px}
 }
+
+/* ============================================================
+   v5 추가 — 공지 배너, 가이드·소식 글, 자주 묻는 질문, 푸터 4단
+   ============================================================ */
+
+/* ---------- 상단 공지 배너 (관리자 > 공지 배너) ---------- */
+.topbar{font-size:.88rem;line-height:1.5}
+.topbar .wrap{display:flex;align-items:center;gap:10px;min-height:42px;padding-top:8px;padding-bottom:8px}
+.topbar__txt{margin:0;flex:1;min-width:0}
+.topbar__link{font-weight:800;text-decoration:underline;text-underline-offset:3px;margin-left:4px;white-space:nowrap}
+.topbar__x{flex:none;background:none;border:0;font-size:1.25rem;line-height:1;cursor:pointer;width:32px;height:32px;border-radius:8px;color:inherit;opacity:.75}
+.topbar__x:hover{opacity:1;background:rgba(255,255,255,.18)}
+.topbar--orange{background:var(--orange);color:#fff}
+.topbar--orange .topbar__link{color:#fff}
+.topbar--navy{background:var(--navy);color:#fff}
+.topbar--navy .topbar__link{color:#FFD9C2}
+.topbar--beige{background:var(--beige);color:var(--navy);border-bottom:1px solid var(--line)}
+.topbar--beige .topbar__link{color:var(--orange-dk)}
+.topbar[hidden]{display:none}
+
+/* ---------- 현재 위치 ---------- */
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.82rem;color:var(--mute);margin-bottom:14px}
+.crumbs a{color:var(--mute)}
+.crumbs a:hover{color:var(--orange-dk)}
+.crumbs span[aria-hidden]{opacity:.6}
+
+/* ---------- 글 (가이드 · 소식) ---------- */
+.wrap--read{max-width:820px}
+.article__head{padding:34px 0 10px;background:linear-gradient(180deg,#FFFFFF 0%,#FDFBF8 100%)}
+.article__head h1{font-size:clamp(1.55rem,4.6vw,2.2rem);letter-spacing:-.022em;line-height:1.3;margin:10px 0 12px}
+.article__head .lead{color:var(--body);font-size:1.03rem;max-width:none}
+.article__meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:.84rem;color:var(--mute)}
+.article__cover{margin:10px 0 6px}
+.article__cover img{aspect-ratio:16/9;object-fit:cover;border-radius:20px;box-shadow:var(--shadow-sm)}
+.article__foot{display:flex;flex-wrap:wrap;gap:10px;margin:36px 0 56px;padding-top:24px;border-top:1px solid var(--line)}
+
+.article-layout{display:grid;gap:28px;padding-bottom:20px}
+@media(min-width:1040px){
+  .article-layout{grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start}
+  .article-aside{position:sticky;top:84px;order:2}
+  .article-main{order:1}
+}
+@media(max-width:1039.9px){.aside-cta{display:none}}
+.article-main{min-width:0;max-width:760px}
+
+.toc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.toc summary{cursor:pointer;font-weight:800;color:var(--navy);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.toc summary::after{content:"+";color:var(--orange);font-weight:700}
+.toc[open] summary::after{content:"–"}
+.toc ol{margin:12px 0 0;padding-left:18px;display:grid;gap:7px;font-size:.9rem}
+.toc a{color:var(--body)}
+.toc a:hover{color:var(--orange-dk)}
+.aside-cta{margin-top:14px;background:var(--beige);border-radius:16px;padding:18px}
+.aside-cta h3{font-size:1rem;margin-bottom:6px}
+.aside-cta p{font-size:.88rem;margin-bottom:12px}
+.aside-cta .btn{width:100%}
+
+.prose{font-size:1.04rem;line-height:1.85;color:#3E4A5F;word-break:keep-all;overflow-wrap:anywhere}
+.prose > *:first-child{margin-top:0}
+.prose > h2:first-child{border-top:0;padding-top:0}
+.prose h2{font-size:1.38rem;margin:2.2em 0 .7em;padding-top:1.1em;border-top:1px solid var(--line);scroll-margin-top:84px}
+.prose h3{font-size:1.12rem;margin:1.7em 0 .5em;scroll-margin-top:84px}
+.prose h4{font-size:1rem;margin:1.4em 0 .4em}
+.prose p{margin:0 0 1.15em}
+.prose ul,.prose ol{margin:0 0 1.2em;padding-left:1.3em}
+.prose li{margin:.3em 0}
+.prose li::marker{color:var(--orange)}
+.prose strong{color:var(--navy)}
+.prose a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(217,90,18,.4)}
+.prose a:hover{text-decoration-color:var(--orange-dk)}
+.tip{background:var(--orange-tint);border-left:4px solid var(--orange);border-radius:4px 14px 14px 4px;padding:14px 18px;margin:1.4em 0;font-size:.97rem;color:#5E3412}
+.tip p{margin:0 0 .5em}
+.tip p:last-child{margin:0}
+
+.faq-block{margin-top:44px}
+.faq-block h2{font-size:1.3rem;margin-bottom:8px}
+
+.cta-band{background:var(--navy);color:#C9D3E6;border-radius:22px;padding:26px 24px;display:grid;gap:14px;margin:40px 0 0}
+.cta-band h2{color:#fff;font-size:1.25rem;margin:0}
+.cta-band p{margin:0;font-size:.95rem}
+.cta-band .chip-row .btn{min-height:44px}
+@media(min-width:760px){.cta-band{grid-template-columns:1fr auto;align-items:center;padding:30px 34px}}
+
+/* ---------- 가이드 카드 ---------- */
+.gcard{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);color:inherit;transition:transform .14s ease, box-shadow .14s ease}
+.gcard:hover{text-decoration:none;transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.gcard__img{aspect-ratio:16/10;background:#F1EDE6;overflow:hidden}
+.gcard__img img{width:100%;height:100%;object-fit:cover}
+.gcard__b{padding:16px 18px 18px;display:flex;flex-direction:column;gap:7px;flex:1}
+.gcard__b h3{font-size:1.02rem;line-height:1.45;margin:0;color:var(--navy)}
+.gcard__b p{font-size:.88rem;color:var(--mute);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gcard__meta{display:flex;gap:8px;align-items:center;font-size:.78rem;color:var(--mute)}
+.gcard--row{flex-direction:row}
+.gcard--row .gcard__img{flex:0 0 38%;aspect-ratio:auto}
+.glist{display:grid;gap:12px}
+.glist a{display:flex;gap:14px;align-items:center;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:14px;color:var(--navy);font-weight:700}
+.glist a:hover{text-decoration:none;border-color:var(--orange)}
+.glist a span{font-weight:500;color:var(--mute);font-size:.86rem;display:block;margin-top:2px}
+.glist a::after{content:"›";margin-left:auto;color:var(--orange);font-size:1.3rem;font-weight:700}
+
+.hub-hero{padding:42px 0 26px;background:
+  radial-gradient(700px 300px at 95% -10%, rgba(244,106,31,.12), transparent 60%),
+  linear-gradient(180deg,#FFFFFF 0%,#FBF8F3 100%)}
+.hub-hero h1{font-size:clamp(1.7rem,5vw,2.4rem);letter-spacing:-.022em;margin:8px 0 12px}
+.hub-section{scroll-margin-top:80px}
+.hub-section + .hub-section{margin-top:52px}
+.hub-section__head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 16px;margin-bottom:18px}
+.hub-section__head h2{margin:0}
+.hub-section__head p{margin:0;font-size:.92rem;color:var(--mute)}
+
+/* ---------- 소식 카드 ---------- */
+.ngrid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:720px){.ngrid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.ngrid{grid-template-columns:repeat(3,1fr)}}
+.ncard{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;color:inherit;box-shadow:var(--shadow-sm)}
+.ncard:hover{text-decoration:none;border-color:#F6C9A8}
+.ncard__img{aspect-ratio:16/9;background:#F1EDE6;overflow:hidden;display:block}
+.ncard__img img{width:100%;height:100%;object-fit:cover}
+.ncard__b{display:flex;flex-direction:column;gap:7px;padding:15px 17px 17px}
+.ncard__meta{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--mute)}
+.ncard__t{color:var(--navy);font-size:1.02rem;line-height:1.45}
+.ncard__s{font-size:.88rem;color:var(--mute)}
+
+/* ---------- 자주 묻는 질문 페이지 ---------- */
+.faq-nav{position:sticky;top:62px;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+.faq-nav .chip-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.faq-nav .chip-row::-webkit-scrollbar{display:none}
+.faq-nav .chip{flex:none}
+.faq-group{scroll-margin-top:130px}
+.faq-group + .faq-group{margin-top:44px}
+
+/* ---------- 홈: 가이드·소식 영역 ---------- */
+.home-guides{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:720px){.home-guides{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.home-guides{grid-template-columns:repeat(4,1fr)}}
+.seo-intro{display:grid;gap:22px}
+@media(min-width:900px){.seo-intro{grid-template-columns:1.1fr .9fr;gap:44px;align-items:start}}
+.keyfacts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.keyfacts div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.keyfacts b{display:block;color:var(--navy);font-size:1.02rem}
+.keyfacts span{font-size:.82rem;color:var(--mute)}
+
+/* ---------- 푸터 4단 ---------- */
+@media(min-width:800px){.site-footer .cols{grid-template-columns:1.4fr 1fr 1fr 1fr}}

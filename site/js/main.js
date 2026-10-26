@@ -12,7 +12,15 @@ const SITE = {
   partnershipEmail: "spaceblank0100@gmail.com",
   instagram: "",    // 예: https://instagram.com/mingle_cafe
   kakaoChannel: "http://pf.kakao.com/_AxgYMn/friend",
+  naverPlace: "",
+  naverBlog: "",
 };
+
+/* 관리자 > 사이트 정보에서 저장한 값이 있으면 그걸 씁니다. (서버가 window.MINGLE_SITE로 넣어 줍니다) */
+try {
+  const o = window.MINGLE_SITE || {};
+  for (const k of Object.keys(SITE)) if (typeof o[k] === "string" && o[k]) SITE[k] = o[k];
+} catch {}
 
 /* 예전 버전의 새벽(네이비) 화면 설정이 브라우저에 남아 있으면 지웁니다. */
 try {
@@ -86,6 +94,23 @@ $$("[data-sns]").forEach((n) => {
   else { n.removeAttribute("href"); n.textContent += " (준비 중)"; n.classList.add("small"); }
 });
 
+/* ---------- 글 목차: 넓은 화면에서는 펼쳐 둡니다 ---------- */
+try {
+  if (window.matchMedia("(min-width: 1040px)").matches)
+    $$("details[data-open-desktop]").forEach((d) => { d.open = true; });
+} catch {}
+
+/* ---------- 상단 공지 배너 닫기 (같은 공지는 이 브라우저에서 다시 안 보입니다) ---------- */
+$$("[data-topbar]").forEach((bar) => {
+  const key = "mg-topbar-" + bar.getAttribute("data-topbar");
+  try { if (sessionStorage.getItem(key)) bar.hidden = true; } catch {}
+  const x = $(".topbar__x", bar);
+  if (x) x.addEventListener("click", () => {
+    bar.hidden = true;
+    try { sessionStorage.setItem(key, "1"); } catch {}
+  });
+});
+
 /* ============================================================
    회원 상태 — 로그인 여부에 따라 화면을 바꿉니다.
    [data-auth-only] 로그인했을 때만 / [data-guest-only] 안 했을 때만
@@ -102,8 +127,8 @@ function paintAuth() {
   $$("[data-auth-only]").forEach((n) => { n.hidden = !ME; });
   $$("[data-guest-only]").forEach((n) => { n.hidden = !!ME; });
   $$("[data-auth-link]").forEach((n) => {
-    if (ME) { n.href = "/account/me.html"; n.textContent = ME.nickname; }
-    else { n.href = "/account/login.html"; n.textContent = "로그인"; }
+    if (ME) { n.href = "/account/me"; n.textContent = ME.nickname; }
+    else { n.href = "/account/login"; n.textContent = "로그인"; }
   });
   $$("[data-me-nick]").forEach((n) => { n.textContent = ME ? ME.nickname : ""; });
 }
@@ -132,14 +157,19 @@ function paintAuth() {
    ============================================================ */
 (async function () {
   const root = $("[data-menu]");
-  if (!root || !window.MINGLE_MENU) return;
+  if (!root) return;
 
+  /* 관리자가 고친 메뉴가 있으면 그걸, 없으면 menu-data.js 기본값을 씁니다. */
+  const [st, mc] = await Promise.all([api("/api/status"), api("/api/content/menu")]);
+  const MENU = (mc.ok && mc.data && mc.data.menu) || window.MINGLE_MENU;
+  if (!MENU) return;
   let soldout = [];
-  const { data } = await api("/api/status");
-  if (data && Array.isArray(data.soldout)) soldout = data.soldout;
+  if (st.data && Array.isArray(st.data.soldout)) soldout = st.data.soldout;
 
   const wrap = el("div");
-  for (const g of window.MINGLE_MENU.groups) {
+  for (const g of MENU.groups) {
+    const visible = (g.items || []).filter((it) => !it.hidden);
+    if (!visible.length) continue;
     const head = el("div", "row-between");
     head.style.margin = "34px 0 14px";
     const h = el("h2", null, g.ko);
@@ -149,7 +179,7 @@ function paintAuth() {
     wrap.append(head);
 
     const grid = el("div", "menu-grid");
-    for (const it of g.items) {
+    for (const it of visible) {
       const sold = soldout.includes(it.id);
       const card = el("article", "mcard");
       card.setAttribute("data-sold", sold ? "1" : "0");
@@ -168,7 +198,9 @@ function paintAuth() {
 
       const b = el("div", "mcard__b");
       b.append(el("h3", null, it.ko));
-      b.append(el("span", "en", it.en));
+      b.append(el("span", "en", it.en || ""));
+      if (it.desc) { const d = el("p", "small", it.desc); d.style.margin = "0 0 6px"; b.append(d); }
+      if (it.new && !sold && !it.img) { b.append(el("span", "badge", "NEW")); b.append(document.createTextNode(" ")); }
       if (sold && !it.img) b.append(el("span", "badge badge--soon", "오늘 품절"));
       const price = it.price
         ? el("span", "mcard__price", it.price.toLocaleString("ko-KR") + "원")
@@ -183,7 +215,39 @@ function paintAuth() {
   root.append(wrap);
 
   const note = $("[data-menu-note]");
-  if (note) note.textContent = window.MINGLE_MENU.note;
+  if (note && MENU.note) note.textContent = MENU.note;
+})();
+
+/* ============================================================
+   밍글 소식 (홈) — 관리자 > 소식에서 게시한 글
+   ============================================================ */
+(async function () {
+  const box = $("[data-news-list]");
+  if (!box) return;
+  const section = box.closest("[data-news-section]");
+  const { ok, data } = await api("/api/content/news?limit=" + (box.getAttribute("data-limit") || 3));
+  const items = ok ? data.items || [] : [];
+  if (!items.length) { if (section) section.hidden = true; return; }
+  box.innerHTML = "";
+  for (const n of items) {
+    const a = el("a", "ncard");
+    a.href = n.url;
+    if (n.cover) {
+      const w = el("span", "ncard__img");
+      const img = el("img");
+      img.src = "/img/" + n.cover + ".webp"; img.alt = ""; img.loading = "lazy";
+      w.append(img); a.append(w);
+    }
+    const b = el("span", "ncard__b");
+    const meta = el("span", "ncard__meta");
+    meta.append(el("span", "badge", n.categoryKo));
+    meta.append(el("span", null, new Date(n.publishedAt).toLocaleDateString("ko-KR")));
+    b.append(meta, el("strong", "ncard__t", n.title));
+    if (n.summary) b.append(el("span", "ncard__s", n.summary));
+    a.append(b);
+    box.append(a);
+  }
+  if (section) section.hidden = false;
 })();
 
 /* ============================================================
@@ -402,7 +466,7 @@ async function initMeetups(root) {
       btn.textContent = m.mine ? "내가 연 모임" : m.applied ? "신청 취소" : "신청하기";
       btn.disabled = m.mine || (m.status !== "open" && !m.applied);
       btn.addEventListener("click", async () => {
-        if (!ME) { location.href = "/account/login.html?next=" + encodeURIComponent("/community.html#meetups"); return; }
+        if (!ME) { location.href = "/account/login?next=" + encodeURIComponent("/community#meetups"); return; }
         btn.disabled = true;
         const { ok, data: d } = await api("/api/meetups", {
           method: "POST",
@@ -421,7 +485,7 @@ async function initMeetups(root) {
 
   if (form) form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!ME) { location.href = "/account/login.html?next=" + encodeURIComponent("/community.html#meetups"); return; }
+    if (!ME) { location.href = "/account/login?next=" + encodeURIComponent("/community#meetups"); return; }
     const fd = new FormData(form);
     const dt = String(fd.get("startsAt") || "");
     const body = {

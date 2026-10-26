@@ -67,7 +67,7 @@
     });
     btn.disabled = false;
     if (!ok) return say($("[data-auth-msg]"), false, data.message || "가입하지 못했어요.");
-    location.href = "/account/me.html?welcome=1";
+    location.href = "/account/me?welcome=1";
   });
 
   /* ---------- 비밀번호 재설정 ---------- */
@@ -107,7 +107,7 @@
     });
     btn.disabled = false;
     if (!ok) return say($("[data-auth-msg]"), false, data.message || "바꾸지 못했어요.");
-    location.href = "/account/me.html";
+    location.href = "/account/me";
   });
 
   /* ---------- 마이 밍글 ---------- */

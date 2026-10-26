@@ -1,105 +1,100 @@
-# 밍글 홈페이지 — 배포 가이드
+# 밍글 홈페이지 — 배포·운영 가이드
 
-이 폴더 하나면 밍글 홈페이지를 실제 주소로 열 수 있습니다.
-비용은 Cloudflare 무료 플랜으로 충분해요. 순서대로 따라오시면 됩니다.
+주소: https://hellomingle.kr  ·  관리자: https://hellomingle.kr/admin/
 
----
-
-## 0. 폴더 구성
-
-```
-밍글-홈페이지/
-├─ site/                ← 홈페이지 본체 (13개 페이지 + 이미지 + 스타일)
-├─ functions/api/       ← 밍글보드 · 문의 접수 API (Cloudflare가 자동 인식)
-├─ wrangler.toml        ← CLI 배포용 설정 (건드릴 필요 없음)
-├─ README_배포가이드.md  ← 지금 이 문서
-├─ KNOWN_LIMITATIONS.md ← 이번 버전에서 안 되는 것 (솔직 버전)
-├─ NEXT_PHASE.md        ← 다음 단계 개발 로드맵 (통합 프롬프트 기준)
-└─ ASSET_TODO.md        ← 나중에 교체·추가하면 좋은 자산 목록
-```
+GitHub `main` 브랜치에 올라가면 Cloudflare Pages가 1~2분 안에 자동으로 배포합니다.
+따로 빌드 명령을 넣을 필요는 없어요. (`site/` 폴더가 그대로 홈페이지입니다)
 
 ---
 
-## 1. 배포하기 (둘 중 하나 선택)
+## 1. 폴더 구성
 
-### 방법 A — GitHub 연동 (추천: 한 번 해 두면 수정할 때마다 자동 배포)
+```
+minglecafe/
+├─ site/                  ← 홈페이지 본체 (Cloudflare가 이 폴더를 그대로 올립니다)
+│  ├─ guide/              ← 밍글 가이드 글 23편 + 모음 페이지 (자동 생성)
+│  ├─ faq.html            ← 자주 묻는 질문 (자동 생성)
+│  ├─ admin/              ← 관리자 화면
+│  ├─ _tpl/news.html      ← 소식 페이지 머리·꼬리 틀 (자동 생성, 직접 열 일 없음)
+│  ├─ sitemap.xml, rss.xml, robots.txt  (자동 생성)
+│  └─ _routes.json        ← 이미지·CSS·JS는 서버 코드를 거치지 않게 하는 설정
+├─ functions/             ← 서버 코드 (Cloudflare Pages Functions)
+│  ├─ _middleware.js      ← 검색 확인 코드·공지 배너·페이지별 검색 문구를 모든 페이지에 끼워 넣음
+│  ├─ news/               ← 밍글 소식 페이지 (/news/), 소식 RSS·사이트맵
+│  └─ api/
+│     ├─ cms/             ← 관리자 전용: 소식·배너·메뉴·검색 설정·문의 상태·게시글 관리
+│     ├─ content/         ← 공개: 메뉴, 소식 목록
+│     └─ (기존) admin, auth, posts, meetups, checkin, inquiries, reports, status
+├─ lib/                   ← 서버 공통 코드 (md.js, cms.js 추가)
+├─ content/               ← 가이드 글 원고(guides/*.md), 자주 묻는 질문 원고(faq.md), 작성 기준
+├─ tools/build.mjs        ← 원고 → HTML 변환 스크립트
+├─ ADMIN_GUIDE.md         ← 관리자 화면 사용법
+└─ wrangler.toml          ← KV·D1 연결 설정 (건드리지 않음)
+```
 
-1. GitHub에 새 저장소를 만들고 **이 폴더 전체**를 올립니다.
-2. [Cloudflare 대시보드](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → 방금 만든 저장소 선택.
-3. 빌드 설정은 아래처럼:
-   - Framework preset: **None**
-   - Build command: **(비워 두기)**
-   - Build output directory: **`site`**
-4. **Save and Deploy** → 1~2분 뒤 `https://프로젝트명.pages.dev` 주소가 생깁니다.
+---
 
-### 방법 B — 명령어 한 줄 (컴퓨터에 Node.js가 있다면)
+## 2. 배포 후 한 번만 확인할 것
+
+1. **관리자 PIN** — Cloudflare 대시보드 → Workers & Pages → 밍글 프로젝트 → Settings → Variables and Secrets 에 `ADMIN_PIN`이 Secret으로 들어 있는지 확인. 없으면 추가하고 다시 배포.
+2. **관리자 화면 열기** — https://hellomingle.kr/admin/ 에서 PIN으로 들어가 "오늘 할 일"이 뜨는지 확인.
+3. **네이버·구글 등록** — 관리자 → 검색 노출(SEO) → 검색엔진 등록 탭에 순서대로 적혀 있어요. 요약하면:
+   - 네이버 서치어드바이저(https://searchadvisor.naver.com) → 사이트 등록 → "HTML 태그" 코드 복사 → 관리자 화면에 붙여 넣고 저장 → 1분 뒤 네이버에서 소유 확인
+   - 사이트맵 제출: `https://hellomingle.kr/sitemap.xml`, `https://hellomingle.kr/news/sitemap.xml`
+   - RSS 제출: `https://hellomingle.kr/rss.xml` (가이드), `https://hellomingle.kr/news/rss.xml` (소식)
+   - 구글 서치 콘솔(https://search.google.com/search-console)도 같은 방식으로 확인 후 사이트맵 두 개 제출
+4. **네이버 플레이스 주소** — 매장이 네이버 지도에 등록돼 있다면 관리자 → 사이트 정보에 주소를 넣어 주세요. 검색엔진이 홈페이지와 매장을 같은 곳으로 묶어 봅니다.
+
+---
+
+## 3. 이번에 바뀐 것 (2026.10)
+
+**검색 노출**
+- 밍글 가이드 23편: 건대 24시간 카페·카공·새벽 디저트·무인카페 이용법(방문), 화양동·스터디 모임·언어교환·모각작(커뮤니티), 무인카페 창업 비용·상권·관리 루틴·장비·샵인샵·건물 편의시설·디저트 입점(창업·제휴), 영어 2편
+- 자주 묻는 질문 25개 (`/faq`)
+- 모든 가이드·FAQ에 검색엔진용 구조화 데이터(글, 자주 묻는 질문, 현재 위치) 적용
+- 매장 정보(주소·24시간·결제 수단·지도)를 검색엔진용 구조화 데이터로 정리
+- 메뉴 목록을 HTML로 미리 그려 둠 — 네이버처럼 자바스크립트를 잘 안 읽는 검색엔진도 메뉴를 읽음
+- 주소 정리: `/store.html` → `/store` (Cloudflare가 실제로 쓰는 주소로 맞춤. 예전 주소도 그대로 열립니다)
+- 페이지 제목·설명을 검색어 기준으로 다시 씀, 사이트맵·RSS 자동 생성
+- 홈·매장·메뉴·커뮤니티·창업·제휴 페이지에 관련 가이드 연결
+
+**관리자 화면** (`/admin/`) — 자세한 사용법은 `ADMIN_GUIDE.md`
+- 오늘 할 일, 매장 상태·품절, 문의 관리(상태·메모·엑셀 내려받기), 커뮤니티 관리(모임 검수·신고·게시글 숨김/삭제)
+- 소식·공지 글 쓰기 → `/news/`에 바로 게시, 검색엔진에도 노출
+- 상단 공지 배너, 메뉴·가격 편집, 검색 노출 설정(사이트 확인 코드·페이지별 문구·전체 점검), 사이트 정보, 활동 기록
+
+---
+
+## 4. 가이드 글을 고치거나 더하고 싶을 때
+
+가이드 글은 `content/guides/` 안의 원고(.md)에서 만들어집니다. 원고를 고친 뒤 아래 한 줄을 실행하면 `site/` 안의 페이지·사이트맵·RSS가 다시 만들어져요.
 
 ```bash
-cd 밍글-홈페이지
-npx wrangler login        # 브라우저에서 Cloudflare 로그인 (최초 1회)
-npx wrangler pages deploy # wrangler.toml이 site 폴더를 자동으로 올립니다
+node tools/build.mjs
 ```
 
-> ⚠️ 대시보드의 **"직접 업로드(드래그 앤 드롭)"** 방식은 페이지는 보이지만
-> `functions/`(밍글보드·문의 API)가 **동작하지 않습니다.** 꼭 A 또는 B로 배포해 주세요.
+터미널이 번거로우시면 Claude에게 "가이드 글 OO 고쳐서 저장소에 반영해 줘"라고 요청하시면 됩니다.
+날짜가 있는 소식(새 메뉴, 점검, 모임 일정)은 원고 없이 **관리자 화면 → 소식 · 공지 글**에서 바로 쓰는 게 빠릅니다.
+
+글 작성 기준(사실 확인, 금지 표현, 분량)은 `content/WRITING_BRIEF.md`에 있어요.
 
 ---
 
-## 2. 밍글보드 켜기 — KV 연결 (5분)
+## 5. 직접 고치면 안 되는 파일
 
-게시판과 문의 폼은 Cloudflare **KV**(무료 저장소)에 데이터를 씁니다.
-
-1. 대시보드 → **Workers & Pages** → **KV** → **Create a namespace** → 이름은 자유 (예: `mingle-board`).
-2. Pages 프로젝트로 이동 → **Settings** → **Functions** → **KV namespace bindings** → **Add binding**
-   - Variable name: **`MINGLE_KV`** ← 반드시 이 이름 그대로
-   - KV namespace: 방금 만든 것 선택
-3. **재배포** 한 번 (Deployments 탭 → Retry, 또는 새로 push).
-
-이제 사이트에서 글을 쓰면 진짜로 저장됩니다.
+- `site/guide/*.html`, `site/faq.html`, `site/sitemap.xml`, `site/rss.xml`, `site/robots.txt`, `site/_tpl/news.html`, `site/js/md.js` — 빌드가 다시 만들면서 덮어씁니다. 원고(`content/`)나 `tools/build.mjs`를 고쳐 주세요.
+- 모든 페이지의 머리(헤더)·전체 메뉴·푸터·하단 탭도 `tools/build.mjs`에서 한 번에 맞춥니다. 메뉴 항목을 바꾸려면 그 파일의 `header()`, `sheet()`, `footer()`를 고치고 빌드하세요.
+- `wrangler.toml` — KV·D1 연결이 들어 있습니다. 대시보드에서 바인딩을 추가해도 이 파일이 우선이에요.
 
 ---
 
-## 3. 글·문의 확인하고 관리하기
+## 6. 로컬에서 미리 보기 (선택)
 
-관리자 화면은 다음 단계에서 만듭니다(NEXT_PHASE 참고). 지금은 KV 대시보드가 관리자 화면이에요.
-
-- 대시보드 → **KV** → 네임스페이스 클릭 → 키 목록이 보입니다.
-  - `post:...` = 밍글보드 글 (값을 열면 닉네임·내용 확인)
-  - `inq:...` = 창업·제휴 문의 (성함·연락처·내용)
-- **글 삭제** = 해당 `post:` 키 삭제. 그게 전부입니다.
-- 문의는 이메일 알림이 아직 없으니, **2~3일에 한 번 `inq:` 키를 확인**하는 습관을 추천해요.
-
----
-
-## 4. 값 바꾸기 (배포 전 딱 세 군데)
-
-| 무엇을 | 어디서 |
-|---|---|
-| 이메일 · 인스타그램 · 카카오톡 채널 주소 | `site/js/main.js` 맨 위 **SITE 객체** |
-| 사이트 도메인 (검색엔진용) | `site/robots.txt` · `site/sitemap.xml` 의 `REPLACE-YOUR-DOMAIN` |
-| 커스텀 도메인 연결 | Pages 프로젝트 → **Custom domains** → 도메인 추가 |
-
-인스타·카카오 주소가 아직 없다면 그냥 두세요. 사이트에 자동으로 "(준비 중)"으로 표시됩니다.
-
----
-
-## 5. 로컬에서 미리 보기
-
-- 간단히: `site/index.html`을 브라우저로 열면 대부분 보입니다. (게시판 자리에는 "미리보기 상태" 안내가 뜹니다 — 정상이에요.)
-- 완전하게(게시판 포함): `npx wrangler pages dev site` 실행 후 안내되는 주소로 접속.
-
----
-
-## 6. 자주 묻는 것
-
-**Q. 게시판에 "미리보기 화면이에요"라고 떠요.**
-KV 바인딩(2번)이 안 됐거나, 직접 업로드로 배포한 경우예요. 방법 A/B로 배포 + `MINGLE_KV` 바인딩을 확인하세요.
-
-**Q. 이상한 글이 올라오면요?**
-연락처(전화·카톡 ID) 자동 차단과 도배 제한(IP당 10분에 5개)이 이미 켜져 있어요. 그래도 올라온 글은 KV에서 키 삭제로 바로 내릴 수 있습니다.
-
-**Q. 사진을 바꾸고 싶어요.**
-`site/img/` 안의 같은 파일명으로 교체하면 끝. 어떤 사진을 실사로 바꾸면 좋은지는 `ASSET_TODO.md`에 정리해 뒀어요.
+```bash
+npx wrangler d1 execute mingle-db --local --file=schema.sql   # 처음 한 번
+npx wrangler pages dev --binding ADMIN_PIN=1234               # http://127.0.0.1:8788
+```
 
 ---
 
