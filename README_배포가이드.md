@@ -39,7 +39,8 @@ minglecafe/
 1. **관리자 PIN** — Cloudflare 대시보드 → Workers & Pages → 밍글 프로젝트 → Settings → Variables and Secrets 에 `ADMIN_PIN`이 Secret으로 들어 있는지 확인. 없으면 추가하고 다시 배포.
 2. **관리자 화면 열기** — https://hellomingle.kr/admin/ 에서 PIN으로 들어가 "오늘 할 일"이 뜨는지 확인.
 3. **네이버·구글 등록** — 관리자 → 검색 노출(SEO) → 검색엔진 등록 탭에 순서대로 적혀 있어요. 요약하면:
-   - 네이버 서치어드바이저(https://searchadvisor.naver.com) → 사이트 등록 → "HTML 태그" 코드 복사 → 관리자 화면에 붙여 넣고 저장 → 1분 뒤 네이버에서 소유 확인
+   - 네이버 서치어드바이저(https://searchadvisor.naver.com) → 사이트 등록 → "HTML 태그" 방식 → 소유확인
+     (hellomingle.kr 확인 코드 `efb71249…fc87`은 2026.10.27부터 모든 페이지 `<head>`에 들어 있습니다. 값은 `lib/cms.js`의 `STATIC_VERIFICATION`)
    - 사이트맵 제출: `https://hellomingle.kr/sitemap.xml`, `https://hellomingle.kr/news/sitemap.xml`
    - RSS 제출: `https://hellomingle.kr/rss.xml` (가이드), `https://hellomingle.kr/news/rss.xml` (소식)
    - 구글 서치 콘솔(https://search.google.com/search-console)도 같은 방식으로 확인 후 사이트맵 두 개 제출

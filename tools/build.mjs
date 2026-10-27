@@ -20,7 +20,7 @@ import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import { mdToHtml, mdToText, esc } from "../lib/md.js";
-import { menuHtml } from "../lib/cms.js";
+import { menuHtml, STATIC_VERIFICATION } from "../lib/cms.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = path.join(ROOT, "site");
@@ -31,8 +31,23 @@ const KAKAO = "http://pf.kakao.com/_AxgYMn/friend";
 const NAVER_MAP = "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B4%91%EC%A7%84%EA%B5%AC%20%EB%8A%A5%EB%8F%99%EB%A1%9C13%EA%B8%B8%2039";
 const KAKAO_MAP = "https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EA%B4%91%EC%A7%84%EA%B5%AC%20%EB%8A%A5%EB%8F%99%EB%A1%9C13%EA%B8%B8%2039";
 
+/* 사이트 소유 확인 메타 태그 — 모든 페이지 <head>에 들어갑니다 (값은 lib/cms.js 의 STATIC_VERIFICATION) */
+const VERIFY_META = [
+  STATIC_VERIFICATION.naver && `<meta name="naver-site-verification" content="${STATIC_VERIFICATION.naver}">`,
+  STATIC_VERIFICATION.google && `<meta name="google-site-verification" content="${STATIC_VERIFICATION.google}">`,
+].filter(Boolean);
+
+function withVerify(html) {
+  let s = html.replace(/\s*<meta name="(naver|google)-site-verification"[^>]*>/g, "");
+  if (!VERIFY_META.length) return s;
+  return s.replace(/(<meta name="viewport"[^>]*>)/, `$1\n  ${VERIFY_META.join("\n  ")}`);
+}
+
 const read = (p) => fs.readFileSync(p, "utf8");
-const write = (p, s) => { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, s); };
+const write = (p, s) => {
+  fs.mkdirSync(path.dirname(p), { recursive: true });
+  fs.writeFileSync(p, p.endsWith(".html") ? withVerify(s) : s);
+};
 const ld = (o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`;
 const log = (...a) => console.log("  ·", ...a);
 
@@ -752,7 +767,7 @@ function syncPage(file) {
     }
   }
 
-  if (s !== before) write(file, s);
+  if (s !== before || withVerify(s) !== s) write(file, s);
   return rel;
 }
 

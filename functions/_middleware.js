@@ -9,7 +9,7 @@
  * 무엇이든 문제가 생기면 원래 페이지를 그대로 내보냅니다. 사이트가 멈추지 않게 하는 것이 먼저예요.
  * 이미지·CSS·JS 같은 파일은 site/_routes.json 에서 제외해 이 코드를 거치지 않습니다.
  */
-import { getJSON, normPath, bannerActive, bannerHtml, menuHtml, SITE_ORIGIN } from "../lib/cms.js";
+import { getJSON, normPath, bannerActive, bannerHtml, menuHtml, SITE_ORIGIN, STATIC_VERIFICATION } from "../lib/cms.js";
 import { esc } from "../lib/md.js";
 
 export async function onRequest(context) {
@@ -42,8 +42,14 @@ export async function onRequest(context) {
     const site = (inject && inject.site) || null;
     const head = [];
 
-    if (seo.naverVerification) head.push(`<meta name="naver-site-verification" content="${esc(seo.naverVerification)}">`);
-    if (seo.googleVerification) head.push(`<meta name="google-site-verification" content="${esc(seo.googleVerification)}">`);
+    /* 페이지에 이미 박혀 있는 코드와 같으면 그대로 두고, 관리자가 다른 코드를 저장했을 때만 바꿔 끼웁니다 */
+    const swapCode = (name, saved, fixed) => {
+      if (!saved || saved === fixed) return;
+      if (fixed) rw.on(`meta[name="${name}"]`, { element(e) { e.remove(); } });
+      head.push(`<meta name="${name}" content="${esc(saved)}">`);
+    };
+    swapCode("naver-site-verification", seo.naverVerification, STATIC_VERIFICATION.naver);
+    swapCode("google-site-verification", seo.googleVerification, STATIC_VERIFICATION.google);
     if (seo.bingVerification) head.push(`<meta name="msvalidate.01" content="${esc(seo.bingVerification)}">`);
 
     if (site) {

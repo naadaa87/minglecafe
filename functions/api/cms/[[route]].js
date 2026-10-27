@@ -23,7 +23,7 @@ import { json, bad } from "../../../lib/util.js";
 import {
   isAdmin, getJSON, putJSON, clip, safeUrl, logAction, rebuildInject,
   DEFAULT_SITE, DEFAULT_SEO, DEFAULT_BANNER, cleanMenu, normPath,
-  NEWS_CATS, cleanSlug, kstDate,
+  NEWS_CATS, cleanSlug, kstDate, STATIC_VERIFICATION,
 } from "../../../lib/cms.js";
 
 const INQ_STATES = ["open", "contacted", "meeting", "done", "dropped"];
@@ -60,9 +60,10 @@ export async function onRequest(context) {
         statusLevel: status.level || "unknown",
         news: { total: index.length, published: index.filter((n) => n.status === "published").length },
         banner: inject && inject.banner ? { on: !!inject.banner.on, text: inject.banner.text || "" } : { on: false },
-        seo: inject && inject.seo
-          ? { naver: !!inject.seo.naverVerification, google: !!inject.seo.googleVerification }
-          : { naver: false, google: false },
+        seo: {
+          naver: !!((inject && inject.seo && inject.seo.naverVerification) || STATIC_VERIFICATION.naver),
+          google: !!((inject && inject.seo && inject.seo.googleVerification) || STATIC_VERIFICATION.google),
+        },
         inquiries: byState,
         hasD1: !!env.MINGLE_DB,
       });
