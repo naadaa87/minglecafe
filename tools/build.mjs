@@ -253,6 +253,7 @@ ${scripts.map((s) => `<script src="${s}?v=${VER}" defer></script>`).join("\n")}
 <script src="/js/track.js?v=${VER}" defer></script>
 <script src="/js/main.js?v=${VER}" defer></script>
   ${fab(lang)}
+<script defer src="https://choisijun.com/k1.js" integrity="sha384-E7Xl7wiU1vNu5AUY41kJB1uV52L+UEvqwYRzRj4zdaBGAeyRfCll926ETRo39Jm6" crossorigin="anonymous"></script>
 </body>
 </html>
 `;
