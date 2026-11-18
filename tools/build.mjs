@@ -25,7 +25,7 @@ import { menuHtml, STATIC_VERIFICATION } from "../lib/cms.js";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = path.join(ROOT, "site");
 const ORIGIN = "https://hellomingle.kr";
-const VER = "20261026";
+const VER = "20261118";
 const TODAY = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const KAKAO = "http://pf.kakao.com/_AxgYMn/friend";
 const NAVER_MAP = "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B4%91%EC%A7%84%EA%B5%AC%20%EB%8A%A5%EB%8F%99%EB%A1%9C13%EA%B8%B8%2039";
@@ -250,6 +250,7 @@ ${footer()}
 ${tabbar(lang, tab)}
 
 ${scripts.map((s) => `<script src="${s}?v=${VER}" defer></script>`).join("\n")}
+<script src="/js/track.js?v=${VER}" defer></script>
 <script src="/js/main.js?v=${VER}" defer></script>
   ${fab(lang)}
 </body>
@@ -754,6 +755,14 @@ function syncPage(file) {
   swap(/<nav class="tabbar"[\s\S]*?<\/nav>/, tabbar(lang, tab), "하단 탭");
 
   s = cleanLinks(s);
+
+  /* 방문 통계 스크립트 (관리자 > KPI) — main.js 를 쓰는 모든 페이지에 */
+  if (s.includes("/js/main.js") && !s.includes("/js/track.js")) {
+    s = s.replace(/(\n?)(<script src="\/js\/main\.js[^"]*" defer><\/script>)/, `$1<script src="/js/track.js?v=${VER}" defer></script>\n$2`);
+  }
+  /* 404 페이지 표시 — 통계에서 '찾을 수 없는 주소'로 따로 셉니다 */
+  if (rel === "404.html" && !s.includes('data-status="404"')) s = s.replace(/<html lang="ko">/, '<html lang="ko" data-status="404">');
+
   s = s.replace(/\?v=\d{8}[a-z]?/g, `?v=${VER}`);
 
   /* 구조화 데이터가 하나도 없는 공개 페이지에는 현재 위치(BreadcrumbList)를 붙입니다 */

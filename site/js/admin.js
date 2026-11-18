@@ -5,6 +5,7 @@
    - 홈페이지 관리: /api/cms/* (소식, 배너, 메뉴, 검색 노출, 사이트 정보, 기록)
    ============================================================ */
 import { mdToHtml } from "/js/md.js?v=20261026";
+import { setupKpi } from "/js/admin-kpi.js?v=20261118";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -112,6 +113,10 @@ const TITLES = {
 const loaders = {};
 const loaded = new Set();
 
+/* KPI 화면 (site/js/admin-kpi.js) */
+const KPI = setupKpi({ api, loaders, loaded, toast });
+Object.assign(TITLES, KPI.titles);
+
 function go(view, opts = {}) {
   if (!TITLES[view]) view = "dash";
   $$("[data-view]").forEach((s) => { s.hidden = s.dataset.view !== view; });
@@ -120,6 +125,7 @@ function go(view, opts = {}) {
     else b.removeAttribute("aria-current");
   });
   $("[data-view-title]").textContent = TITLES[view];
+  document.body.dataset.admView = view;
   if (location.hash !== "#" + view) history.replaceState(null, "", "#" + view);
   window.scrollTo({ top: 0 });
   if (loaders[view] && (opts.reload || !loaded.has(view))) { loaded.add(view); loaders[view](opts); }
@@ -159,6 +165,7 @@ function counter(input, warnMin, warnMax) {
 }
 
 async function start() {
+  try { localStorage.setItem("mg_notrack", "1"); } catch {}
   loginBox.hidden = true;
   app.hidden = false;
   const first = location.hash.slice(1);
@@ -169,9 +176,10 @@ async function start() {
    오늘 할 일
    ============================================================ */
 loaders.dash = async function () {
-  const [a, c, l] = await Promise.all([api("/api/admin/overview"), api("/api/cms/overview"), api("/api/cms/log")]);
+  const [a, c, l, today] = await Promise.all([api("/api/admin/overview"), api("/api/cms/overview"), api("/api/cms/log"), KPI.today()]);
   const o = a.data || {};
   const x = c.data || {};
+  const tv = today || {};
   const inq = x.inquiries || {};
   const working = (inq.contacted || 0) + (inq.meeting || 0);
 
@@ -180,10 +188,10 @@ loaders.dash = async function () {
     ["진행 중 문의", working, "inquiries"],
     ["신고", o.reports ?? 0, "community", o.reports > 0],
     ["모임 검수", o.pendingMeetups ?? 0, "community", o.pendingMeetups > 0],
-    ["회원", o.members ?? 0, null],
-    ["오늘 체크인", o.checkinsToday ?? 0, null],
-    ["게시 중 소식", x.news ? x.news.published : 0, "news"],
-    ["밍글보드 글", o.posts ?? 0, "community"],
+    ["오늘 방문자", today ? tv.visitors : "-", "kpi"],
+    ["오늘 페이지뷰", today ? tv.views : "-", "kpi"],
+    ["오늘 체크인", o.checkinsToday ?? 0, "kpi-community"],
+    ["회원", o.members ?? 0, "kpi-members"],
   ];
   const box = $("[data-kpis]");
   box.innerHTML = "";
@@ -208,6 +216,7 @@ loaders.dash = async function () {
   if (x.banner && x.banner.on) todo.push(["", "상단 공지 배너가 켜져 있어요", x.banner.text || "", "banner", "확인"]);
   if (x.seo && (!x.seo.naver || !x.seo.google)) todo.push(["", "검색엔진 사이트 등록을 마무리해 주세요", `${x.seo.naver ? "" : "네이버 "}${x.seo.google ? "" : "구글 "}확인 코드가 비어 있어요.`, "seo", "등록하기"]);
   if (x.news && x.news.published === 0) todo.push(["", "아직 올린 소식이 없어요", "새 디저트나 모임 소식 하나만 올려도 검색에 잡히는 페이지가 늘어납니다.", "news", "쓰기"]);
+  if (today && today.realtime) todo.push(["ok", `최근 30분 동안 ${today.realtime}명이 홈페이지를 봤어요`, today.contactClicks ? `오늘 길찾기·카카오·전화 클릭 ${today.contactClicks}회` : "", "kpi", "KPI 보기"]);
   if (o.db === false || x.hasD1 === false) todo.push(["warn", "회원 DB(D1)가 연결되지 않았어요", "회원·모임·신고 기능이 멈춰 있어요. wrangler.toml의 D1 설정을 확인해 주세요.", null, null]);
 
   const ul = $("[data-todo]");

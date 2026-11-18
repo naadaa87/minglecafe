@@ -10,15 +10,15 @@
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="/css/main.css?v=20261026">
-  <link rel="stylesheet" href="/css/admin.css?v=20261026">
+  <link rel="stylesheet" href="/css/main.css?v=20261118">
+  <link rel="stylesheet" href="/css/admin.css?v=20261118">
 </head>
 <body class="adm">
 
 <!-- ============ 로그인 ============ -->
 <div class="adm-login" data-login>
   <div class="adm-login__box">
-    <img src="/img/logo.png?v=20261026" alt="Mingle 밍글" width="106" height="50">
+    <img src="/img/logo.png?v=20261118" alt="Mingle 밍글" width="106" height="50">
     <h1>관리자 로그인</h1>
     <p class="small">홈페이지 관리와 매장 상태 입력은 여기서 합니다.</p>
     <div data-login-msg></div>
@@ -35,13 +35,20 @@
 <!-- ============ 관리 화면 ============ -->
 <div class="adm-app" data-app hidden>
   <aside class="adm-side">
-    <a class="adm-brand" href="/admin/"><img src="/img/logo.png?v=20261026" alt="Mingle" width="84" height="40"><span>관리자</span></a>
+    <a class="adm-brand" href="/admin/"><img src="/img/logo.png?v=20261118" alt="Mingle" width="84" height="40"><span>관리자</span></a>
     <nav class="adm-nav" aria-label="관리 메뉴" data-nav>
       <p class="adm-nav__label">매일</p>
       <button data-go="dash">오늘 할 일</button>
       <button data-go="status">매장 상태 · 품절</button>
       <button data-go="inquiries">문의 관리<span class="adm-count" data-count="inq"></span></button>
       <button data-go="community">커뮤니티 관리<span class="adm-count" data-count="com"></span></button>
+      <p class="adm-nav__label">KPI · 데이터</p>
+      <button data-go="kpi">KPI 한눈에</button>
+      <button data-go="kpi-pages">페이지 · 인기 정보</button>
+      <button data-go="kpi-traffic">유입 경로</button>
+      <button data-go="kpi-clicks">클릭 · 전환</button>
+      <button data-go="kpi-members">회원</button>
+      <button data-go="kpi-community">모임 · 커뮤니티</button>
       <p class="adm-nav__label">홈페이지</p>
       <button data-go="news">소식 · 공지 글</button>
       <button data-go="banner">상단 공지 배너</button>
@@ -64,6 +71,28 @@
       <button class="adm-top__out" type="button" data-logout>나가기</button>
     </header>
 
+    <!-- KPI 기간 (KPI 화면에서만 보입니다) -->
+    <div class="kpi-bar" data-kpi-bar>
+      <div class="chip-row kpi-bar__presets" data-kpi-presets role="group" aria-label="기간"></div>
+      <div class="kpi-bar__custom">
+        <label class="sr-only" for="kpi-from">시작일</label>
+        <input class="adm-input" id="kpi-from" type="date" data-kpi-from>
+        <span aria-hidden="true">~</span>
+        <label class="sr-only" for="kpi-to">종료일</label>
+        <input class="adm-input" id="kpi-to" type="date" data-kpi-to>
+        <button class="btn btn--ghost btn--sm" type="button" data-kpi-apply>적용</button>
+        <button class="btn btn--ghost btn--sm" type="button" data-kpi-refresh aria-label="새로 불러오기">새로고침</button>
+      </div>
+      <p class="kpi-bar__range" data-kpi-range></p>
+    </div>
+
+    <section data-view="kpi" hidden><div data-kpi-root="kpi"></div></section>
+    <section data-view="kpi-pages" hidden><div data-kpi-root="kpi-pages"></div></section>
+    <section data-view="kpi-traffic" hidden><div data-kpi-root="kpi-traffic"></div></section>
+    <section data-view="kpi-clicks" hidden><div data-kpi-root="kpi-clicks"></div></section>
+    <section data-view="kpi-members" hidden><div data-kpi-root="kpi-members"></div></section>
+    <section data-view="kpi-community" hidden><div data-kpi-root="kpi-community"></div></section>
+
     <!-- 오늘 할 일 -->
     <section data-view="dash">
       <div class="adm-kpis" data-kpis></div>
@@ -79,6 +108,7 @@
             <button class="adm-q" data-go="news" data-new-news><b>소식 쓰기</b><span>새 디저트, 점검, 모임 일정</span></button>
             <button class="adm-q" data-go="banner"><b>공지 배너</b><span>모든 페이지 맨 위에 한 줄</span></button>
             <button class="adm-q" data-go="menu"><b>메뉴 · 가격</b><span>가격 입력, NEW 표시, 숨기기</span></button>
+            <button class="adm-q" data-go="kpi"><b>KPI 보기</b><span>방문자, 인기 페이지, 문의·길찾기 클릭, 가입·모임</span></button>
           </div>
         </div>
       </div>
@@ -374,7 +404,7 @@
 
 <div class="adm-toast" data-toast role="status" aria-live="polite"></div>
 
-<script src="/js/menu-data.js?v=20261026"></script>
-<script type="module" src="/js/admin.js?v=20261026"></script>
+<script src="/js/menu-data.js?v=20261118"></script>
+<script type="module" src="/js/admin.js?v=20261118"></script>
 </body>
 </html>
