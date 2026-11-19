@@ -5,6 +5,7 @@ Disallow: /admin/
 Disallow: /account/
 Disallow: /go/
 Disallow: /_tpl/
+Disallow: /cdn-cgi/
 
 Sitemap: https://hellomingle.kr/sitemap.xml
 Sitemap: https://hellomingle.kr/news/sitemap.xml

@@ -867,6 +867,7 @@ Disallow: /admin/
 Disallow: /account/
 Disallow: /go/
 Disallow: /_tpl/
+Disallow: /cdn-cgi/
 
 Sitemap: ${ORIGIN}/sitemap.xml
 Sitemap: ${ORIGIN}/news/sitemap.xml
