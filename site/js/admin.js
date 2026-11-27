@@ -906,7 +906,46 @@ loaders.seo = async function () {
     row.append(el("span", null, label), el("code", null, url), a, btn);
     list.append(row);
   }
+
+  /* AI 검색용 파일 */
+  const geo = $("[data-geo-links]");
+  if (geo) {
+    geo.innerHTML = "";
+    for (const [label, path] of [["AI용 사이트 요약", "/llms.txt"], ["AI용 전체 문서", "/llms-full.txt"], ["로봇 안내", "/robots.txt"]]) {
+      const row = el("div", "adm-copy");
+      const a = el("a", "small", "열기"); a.href = path; a.target = "_blank"; a.rel = "noopener";
+      row.append(el("span", null, label), el("code", null, "https://hellomingle.kr" + path), a);
+      geo.append(row);
+    }
+  }
+  showIndexNow(data.indexnow);
 };
+
+function showIndexNow(rec) {
+  const box = $("[data-indexnow-result]");
+  if (!box) return;
+  if (!rec) { box.textContent = "아직 알린 기록이 없어요."; return; }
+  const parts = (rec.results || []).map((r) => `${r.name}: ${r.ok ? "접수됨" : r.status ? "실패(" + r.status + ")" : "연결 실패"}`);
+  box.textContent = `마지막으로 알린 때 ${kst(rec.ts)} · 주소 ${rec.count}개 · ${parts.join(" · ")}`;
+}
+
+const indexNowBtn = $("[data-indexnow]");
+if (indexNowBtn) indexNowBtn.addEventListener("click", async () => {
+  busy(indexNowBtn, true, "알리는 중…");
+  const { ok, data } = await post("/api/cms/indexnow", {});
+  busy(indexNowBtn, false);
+  if (!ok) return toast(data.message || "알리지 못했어요. 잠시 뒤에 다시 눌러 주세요.", true);
+  showIndexNow(data);
+  toast(data.ok ? "검색엔진에 알렸어요." : "요청은 보냈지만 받아들여지지 않았어요. 아래 결과를 확인해 주세요.", !data.ok);
+});
+
+/* 복사해서 쓰는 문구 */
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest ? e.target.closest("[data-copy-snippet]") : null;
+  if (!btn) return;
+  const text = ($("[data-snippet]", btn.closest(".adm-snippet")) || {}).textContent || "";
+  try { await navigator.clipboard.writeText(text); toast("복사했어요."); } catch { prompt("아래 문구를 복사하세요", text); }
+});
 
 $("[data-verify-form]").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -1123,7 +1162,60 @@ loaders.site = async function () {
   SETTINGS = data;
   const f = $("[data-site-form]");
   for (const k of ["kakaoChannel", "supportEmail", "instagram", "naverPlace", "naverBlog", "youtube"]) f[k].value = data.site[k] || "";
+  renderFacts(data.factFields || [], data.store || {});
 };
+
+/* ---------- 매장 편의 정보 ---------- */
+function renderFacts(fields, saved) {
+  const box = $("[data-facts-list]");
+  if (!box) return;
+  box.innerHTML = "";
+  for (const fd of fields) {
+    const cur = saved[fd.key] || {};
+    const wrap = el("div", "adm-fact");
+    wrap.dataset.fact = fd.key;
+    const head = el("div", "adm-fact__head");
+    head.append(el("b", null, fd.label), el("span", "adm-fact__q", "손님 질문: " + fd.q));
+    wrap.append(head);
+    if (fd.yn) {
+      const row = el("div", "chip-row");
+      for (const [val, label] of [["yes", "있어요 · 돼요"], ["no", "없어요 · 안 돼요"], ["", "표시 안 함"]]) {
+        const lab = el("label", "chip");
+        const input = el("input");
+        input.type = "radio"; input.name = "fact-" + fd.key; input.value = val; input.hidden = true;
+        input.checked = (cur.state || "") === val;
+        lab.append(input, document.createTextNode(" " + label));
+        row.append(lab);
+      }
+      wrap.append(row);
+    }
+    const input = el("input", "adm-input");
+    input.maxLength = 160;
+    input.placeholder = fd.hint || "";
+    input.value = cur.text || "";
+    input.setAttribute("aria-label", fd.label + " 안내 문구");
+    wrap.append(input);
+    box.append(wrap);
+  }
+}
+
+const factsForm = $("[data-facts-form]");
+if (factsForm) factsForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const facts = {};
+  for (const wrap of $$("[data-fact]", factsForm)) {
+    const text = $("input.adm-input", wrap).value.trim();
+    const picked = $("input[type=radio]:checked", wrap);
+    if (text) facts[wrap.dataset.fact] = { text, state: picked ? picked.value : "" };
+    else if (picked && picked.value) return toast("‘있어요/없어요’를 고른 항목에는 손님에게 보일 안내 문구도 한 줄 적어 주세요.", true);
+  }
+  const btn = $("button[type=submit]", factsForm);
+  busy(btn, true, "저장 중…");
+  const { ok, data } = await post("/api/cms/store", { facts });
+  busy(btn, false);
+  if (!ok) return toast(data.message || "저장하지 못했어요.", true);
+  toast("저장했어요. 1분 안에 매장 안내와 자주 묻는 질문에 반영돼요.");
+});
 $("[data-site-form]").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.target;

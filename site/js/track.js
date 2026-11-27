@@ -187,6 +187,18 @@
     } catch (err) {}
   }, true);
 
+  /* ---------- 사이트 안 검색 (search.js 가 부릅니다) ---------- */
+  var searches = 0;
+  window.MINGLE_TRACK = {
+    search: function (q, count) {
+      try {
+        if (searches >= 20) return;
+        searches++;
+        send({ t: "ev", id: pvid, vid: vid, sid: sid, p: path, k: "search", g: count > 0 ? "hit" : "none", lb: clean(q, 40).toLowerCase(), h: "" });
+      } catch (err) {}
+    },
+  };
+
   /* ---------- 자주 묻는 질문 펼침 ---------- */
   document.addEventListener("toggle", function (e) {
     try {

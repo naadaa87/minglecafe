@@ -3,7 +3,7 @@
  *
  *  { t:"pv",  id, vid, sid, n, e, p, ti, r, pr, nf, l, us, um, uc }   페이지 조회 시작
  *  { t:"end", id, d, s }                                               체류 시간(ms)·스크롤(%) 갱신
- *  { t:"ev",  id, vid, sid, p, k, g, lb, h }                           클릭·질문 펼침
+ *  { t:"ev",  id, vid, sid, p, k, g, lb, h }                           클릭·질문 펼침·사이트 안 검색
  *
  * 항상 204로 답합니다. 통계가 실패해도 손님 화면에는 아무 영향이 없어야 하니까요.
  * 관리자 본인(관리자 쿠키), 검색 로봇, 다른 사이트에서 보낸 요청은 기록하지 않습니다.
@@ -11,7 +11,7 @@
 import { readCookie } from "../../lib/util.js";
 import { isAdmin } from "../../lib/cms.js";
 import {
-  ensureAnalytics, kstParts, cleanPath, classifyReferrer, deviceOf, isBot, idOk, txt,
+  ensureAnalytics, kstParts, cleanPath, classifyReferrer, isAiHost, deviceOf, isBot, idOk, txt,
 } from "../../lib/analytics.js";
 
 const done = () => new Response(null, { status: 204, headers: { "Cache-Control": "no-store" } });
@@ -71,7 +71,8 @@ export async function onRequestPost(context) {
         ref = classifyReferrer(txt(m.r, 600), url.hostname);
         utm = { s: txt(m.us, 60), m: txt(m.um, 60), c: txt(m.uc, 80) };
         if (ref.source === "internal") ref.source = "direct";
-        if (ref.source === "direct" && (path === "/go" || path.startsWith("/go/"))) ref.source = "qr";
+        if (isAiHost(utm.s) && (ref.source === "direct" || ref.source === "other")) ref.source = "ai";
+        else if (ref.source === "direct" && (path === "/go" || path.startsWith("/go/"))) ref.source = "qr";
         else if (ref.source === "direct" && utm.s) ref.source = "campaign";
       }
 
@@ -111,7 +112,7 @@ export async function onRequestPost(context) {
     /* ---------- 클릭 · 질문 펼침 ---------- */
     if (m.t === "ev") {
       if (!idOk(m.vid)) return done();
-      const kind = ["click", "faq"].includes(m.k) ? m.k : null;
+      const kind = ["click", "faq", "search"].includes(m.k) ? m.k : null;
       if (!kind) return done();
       await db.prepare(
         `INSERT INTO an_events (ts, day, vid, sid, view_id, path, kind, target, label, href)

@@ -177,7 +177,7 @@
 
 /* ---------- 검색 노출 ---------- */
 .adm-steps{margin:10px 0 0;padding-left:20px;display:grid;gap:10px;font-size:.93rem}
-.adm-copylist{display:grid;gap:8px;margin-top:16px}
+.adm-copylist{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-top:16px}
 .adm-copy{display:flex;align-items:center;gap:8px;background:#F8F9FB;border-radius:10px;padding:8px 10px;font-size:.86rem}
 .adm-copy span{color:var(--mute);flex:none;width:110px}
 .adm-copy code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:none;padding:0}
@@ -369,3 +369,19 @@ a.kt-path:hover .kt-path__t{color:var(--orange-dk)}
 
 /* 메뉴가 길어져도 사이드바 안에서 스크롤 */
 @media(min-width:980px){.adm-side{overflow-y:auto}}
+
+/* 복사해서 쓰는 문구 */
+.adm-snippet{display:flex;align-items:flex-start;gap:10px;background:#F8F9FB;border-radius:12px;padding:12px 14px;margin-top:8px}
+.adm-snippet p{flex:1;min-width:0;margin:0;font-size:.92rem;line-height:1.65;color:var(--navy);word-break:keep-all;overflow-wrap:anywhere}
+.adm-snippet .btn{flex:none}
+
+/* 매장 편의 정보 */
+.adm-fact{padding:14px 0;border-bottom:1px solid var(--line)}
+.adm-fact:last-child{border-bottom:0}
+.adm-fact__head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:8px}
+.adm-fact__head b{color:var(--navy)}
+.adm-fact__q{font-size:.82rem;color:var(--mute)}
+.adm-fact .chip-row{margin-bottom:8px}
+.adm-fact .chip{min-height:34px;font-size:.84rem;padding:0 13px}
+.adm-fact .chip:has(input:checked){background:var(--navy);border-color:var(--navy);color:#fff}
+@media(max-width:560px){.adm-copy{flex-wrap:wrap}.adm-copy span{width:auto}.adm-copy code{flex:1 1 100%;order:3}.adm-snippet{flex-direction:column}.adm-snippet .btn{align-self:flex-end}}

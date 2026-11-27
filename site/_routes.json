@@ -1,5 +1,19 @@
 {
   "version": 1,
-  "include": ["/*"],
-  "exclude": ["/img/*", "/css/*", "/js/*", "/robots.txt", "/sitemap.xml", "/rss.xml", "/site.webmanifest"]
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/img/*",
+    "/css/*",
+    "/js/*",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/rss.xml",
+    "/site.webmanifest",
+    "/llms/*",
+    "/llms.txt",
+    "/llms-full.txt",
+    "/search-index.json"
+  ]
 }

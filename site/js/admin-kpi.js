@@ -36,7 +36,7 @@ const L = {
   source: {
     naver_search: "네이버 검색", naver_map: "네이버 지도·플레이스", naver_blog: "네이버 블로그", naver_cafe: "네이버 카페",
     naver: "네이버(기타)", google: "구글", daum: "다음 검색", kakao: "카카오톡·카카오 채널", kakao_map: "카카오맵",
-    instagram: "인스타그램", sns: "기타 SNS", search_other: "기타 검색엔진", direct: "직접 방문·북마크",
+    instagram: "인스타그램", sns: "기타 SNS", search_other: "기타 검색엔진", ai: "AI 검색·챗봇", direct: "직접 방문·북마크",
     qr: "매장 QR", campaign: "캠페인 링크(UTM)", other: "기타 사이트",
   },
   target: {
@@ -747,6 +747,15 @@ export function setupKpi({ api, loaders, loaded, toast }) {
     three.append(gc, nc, fc);
     root.append(three);
 
+    const sc = card("사이트 안에서 찾은 말", "검색 페이지에서 손님이 입력한 낱말. ‘결과 없음’이 많은 말은 글이나 질문으로 채워 주면 좋아요.");
+    sc.append(table([
+      { key: "label", label: "검색어" },
+      { key: "count", label: "횟수", num: true, render: (r) => fmt.n(r.count) },
+      { key: "visitors", label: "사람", num: true, render: (r) => fmt.n(r.visitors) },
+      { key: "none", label: "결과 없음", num: true, render: (r) => (r.none ? fmt.n(r.none) : "–") },
+    ], d.searches || [], { initial: ["count", -1], emptyText: "아직 사이트 안에서 검색한 기록이 없어요." }));
+    root.append(sc);
+
     /* 전체 페이지 표 */
     const tc = card("페이지별 자세히", "제목을 누르면 새 탭에서 열려요. 머리글을 누르면 정렬됩니다.");
     const tools = el("div", "kc__tools");
@@ -828,6 +837,14 @@ export function setupKpi({ api, loaders, loaded, toast }) {
     ], d.refs, { initial: ["c", -1], emptyText: "아직 외부 사이트에서 들어온 기록이 없어요." }));
     two2.append(kc, rc);
     root.append(two2);
+
+    const ac = card("AI 검색·챗봇에서 들어온 페이지", "ChatGPT·Perplexity·Gemini·Claude 같은 AI 답변 속 링크를 누르고 들어온 방문이에요. 어떤 글이 AI 답변에 인용되는지 가늠할 수 있습니다.");
+    ac.append(table([
+      { key: "title", label: "페이지", render: (r) => pathLink(r.path, r.title), sort: (r) => r.title || r.path },
+      { key: "host", label: "어디서", render: (r) => r.host || "–" },
+      { key: "c", label: "방문", num: true, render: (r) => fmt.n(r.c) },
+    ], d.aiLanding || [], { initial: ["c", -1], emptyText: "아직 AI 검색·챗봇에서 들어온 방문이 없어요. 글이 쌓이고 색인되면 조금씩 생깁니다." }));
+    root.append(ac);
 
     const hc = card("요일 · 시간대별 조회", "언제 홈페이지를 많이 보나 (한국 시간)");
     const hm = el("div", "kt-heat");

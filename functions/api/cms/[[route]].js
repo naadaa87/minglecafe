@@ -7,6 +7,8 @@
  *  POST site                사이트 정보 저장
  *  POST seo                 검색 노출 설정 저장
  *  POST banner              공지 배너 저장
+ *  POST store               매장 편의 정보(와이파이·화장실·주차 등) 저장
+ *  POST indexnow            바뀐 주소를 네이버·빙에 바로 알리기 (IndexNow)
  *  GET  menu / POST menu    메뉴·가격 (POST {reset:true} 이면 기본값으로)
  *  GET  news                소식 전체(임시 저장 포함)
  *  GET  news/one?id=        소식 하나
@@ -23,8 +25,9 @@ import { json, bad } from "../../../lib/util.js";
 import {
   isAdmin, getJSON, putJSON, clip, safeUrl, logAction, rebuildInject,
   DEFAULT_SITE, DEFAULT_SEO, DEFAULT_BANNER, cleanMenu, normPath,
-  NEWS_CATS, cleanSlug, kstDate, STATIC_VERIFICATION,
+  NEWS_CATS, cleanSlug, kstDate, STATIC_VERIFICATION, newsUrl, SITE_ORIGIN,
 } from "../../../lib/cms.js";
+import { FACT_FIELDS, cleanFacts, indexNow } from "../../../lib/seo.js";
 
 const INQ_STATES = ["open", "contacted", "meeting", "done", "dropped"];
 
@@ -71,16 +74,49 @@ export async function onRequest(context) {
 
     /* ---------- 설정 읽기 ---------- */
     if (route === "settings" && method === "GET") {
-      const [site, seo, banner] = await Promise.all([
+      const [site, seo, banner, store, ping] = await Promise.all([
         getJSON(env, "cms:site", DEFAULT_SITE),
         getJSON(env, "cms:seo", DEFAULT_SEO),
         getJSON(env, "cms:banner", DEFAULT_BANNER),
+        getJSON(env, "cms:store", {}),
+        getJSON(env, "cms:indexnow", null),
       ]);
       return json({
         site: { ...DEFAULT_SITE, ...site },
         seo: { ...DEFAULT_SEO, ...seo },
         banner: { ...DEFAULT_BANNER, ...banner },
+        store: store || {},
+        factFields: FACT_FIELDS.map(({ key, label, q, yn, hint }) => ({ key, label, q, yn, hint })),
+        indexnow: ping,
       });
+    }
+
+    /* ---------- 매장 편의 정보 ---------- */
+    if (route === "store" && method === "POST") {
+      const v = cleanFacts(body.facts || {});
+      await putJSON(env, "cms:store", v);
+      await rebuildInject(env);
+      await logAction(env, "매장 편의 정보 저장", `${Object.keys(v).length}개 항목`);
+      return json({ ok: true, store: v });
+    }
+
+    /* ---------- IndexNow: 바뀐 주소를 검색엔진에 바로 알리기 ---------- */
+    if (route === "indexnow" && method === "POST") {
+      const urls = new Set();
+      try {
+        const res = await env.ASSETS.fetch(new URL("/sitemap.xml", request.url));
+        const xml = res.ok ? await res.text() : "";
+        for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) urls.add(m[1].trim());
+      } catch {}
+      const index = (await getJSON(env, "news:index", [])) || [];
+      for (const n of index) if (n.status === "published") urls.add(SITE_ORIGIN + newsUrl(n));
+      if (index.some((n) => n.status === "published")) urls.add(SITE_ORIGIN + "/news/");
+      if (!urls.size) return bad("알릴 주소를 찾지 못했어요. 잠시 뒤에 다시 눌러 주세요.", 500);
+      const results = await indexNow([...urls]);
+      const record = { ts: Date.now(), count: urls.size, results };
+      await putJSON(env, "cms:indexnow", record);
+      await logAction(env, "검색엔진에 주소 알림(IndexNow)", `${urls.size}개 주소 · ${results.map((r) => `${r.name} ${r.status || "실패"}`).join(", ")}`);
+      return json({ ok: results.some((r) => r.ok), ...record });
     }
 
     /* ---------- 사이트 정보 ---------- */
@@ -216,6 +252,10 @@ export async function onRequest(context) {
       );
       await putJSON(env, "news:index", next.slice(0, 500));
       await logAction(env, isNew ? "소식 새로 씀" : "소식 고침", `${status === "published" ? "[게시]" : "[임시]"} ${title}`);
+      /* 게시한 글은 네이버·빙에 바로 알립니다 (실패해도 저장에는 영향이 없어요) */
+      if (status === "published") {
+        context.waitUntil(indexNow([SITE_ORIGIN + newsUrl(item), SITE_ORIGIN + "/news/"]).catch(() => {}));
+      }
       return json({ ok: true, item });
     }
     if (route === "news/delete" && method === "POST") {

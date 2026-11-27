@@ -12,11 +12,17 @@ GitHub `main` 브랜치에 올라가면 Cloudflare Pages가 1~2분 안에 자동
 ```
 minglecafe/
 ├─ site/                  ← 홈페이지 본체 (Cloudflare가 이 폴더를 그대로 올립니다)
-│  ├─ guide/              ← 밍글 가이드 글 23편 + 모음 페이지 (자동 생성)
+│  ├─ guide/              ← 밍글 가이드 글 47편 + 모음 페이지 (자동 생성)
 │  ├─ faq.html            ← 자주 묻는 질문 (자동 생성)
+│  ├─ glossary.html       ← 용어 사전 (자동 생성)
+│  ├─ about.html          ← 밍글 한눈에 보기 (자동 생성)
+│  ├─ search.html         ← 사이트 검색 (자동 생성) · search-index.json 이 검색 목록
+│  ├─ llms.txt, llms-full.txt, llms/  ← AI 검색·챗봇용 요약과 글별 마크다운 사본 (자동 생성)
+│  ├─ img/og/             ← 공유용 이미지 1200×630 JPG
 │  ├─ admin/              ← 관리자 화면
 │  ├─ _tpl/news.html      ← 소식 페이지 머리·꼬리 틀 (자동 생성, 직접 열 일 없음)
 │  ├─ sitemap.xml, rss.xml, robots.txt  (자동 생성)
+│  ├─ 8c1f…6c92.txt       ← IndexNow 열쇠 파일 (자동 생성, 지우지 마세요)
 │  └─ _routes.json        ← 이미지·CSS·JS는 서버 코드를 거치지 않게 하는 설정
 ├─ functions/             ← 서버 코드 (Cloudflare Pages Functions)
 │  ├─ _middleware.js      ← 검색 확인 코드·공지 배너·페이지별 검색 문구를 모든 페이지에 끼워 넣음
@@ -27,11 +33,14 @@ minglecafe/
 │     ├─ cms/             ← 관리자 전용: 소식·배너·메뉴·검색 설정·문의 상태·게시글 관리
 │     ├─ content/         ← 공개: 메뉴, 소식 목록
 │     └─ (기존) admin, auth, posts, meetups, checkin, inquiries, reports, status
-├─ lib/                   ← 서버 공통 코드 (md.js, cms.js, analytics.js)
+├─ lib/                   ← 서버 공통 코드 (md.js, cms.js, analytics.js, seo.js)
+│                            seo.js: 매장 기본 정보·구조화 데이터·매장 편의 정보·IndexNow
 ├─ schema-analytics.sql   ← 방문 통계 테이블 구조 (자동 생성되므로 실행할 필요 없음)
-├─ content/               ← 가이드 글 원고(guides/*.md), 자주 묻는 질문 원고(faq.md), 작성 기준
+├─ content/               ← 가이드 글 원고(guides/*.md), 자주 묻는 질문(faq.md), 용어 사전(glossary.md),
+│                            밍글 한눈에 보기(about.md), 작성 기준(WRITING_BRIEF.md)
 ├─ tools/build.mjs        ← 원고 → HTML 변환 스크립트
 ├─ ADMIN_GUIDE.md         ← 관리자 화면 사용법
+├─ SEO_GUIDE.md           ← 검색·AI 노출: 들어가 있는 것, 직접 해야 할 일, 검색어 지도
 └─ wrangler.toml          ← KV·D1 연결 설정 (건드리지 않음)
 ```
 
@@ -52,6 +61,17 @@ minglecafe/
 ---
 
 ## 3. 이번에 바뀐 것
+
+### 2026.11.27 — 검색·AI 노출 강화 (SEO · AEO · GEO)
+자세한 내용과 직접 해 주셔야 할 일은 `SEO_GUIDE.md`에 있습니다.
+- **글 24편 추가**(총 47편) — 건대 심야·첫차·목적별 카페, 무인카페와 스터디카페 차이, 결제 오류 대처, 안전, 분실물, 창업 절차·수익 구조·부업·프랜차이즈 비교·인허가·도난 대응·메뉴 구성·인테리어, 영어 2편, 중국어·일본어 각 1편
+- 모든 글 첫머리에 **한눈에 보기**(질문에 바로 답하는 한두 문장 + 요점), 질문형 소제목, 글쓴이·수정일 표시
+- **자주 묻는 질문 42개**로 확대, **용어 사전 30개**(`/glossary`), **밍글 한눈에 보기**(`/about`), **사이트 검색**(`/search`) 신설
+- 페이지별 구조화 데이터 전면 정리(매장 좌표·지도, 메뉴, 이용 순서, 창업·제휴 서비스, 용어), 언어별 주소(hreflang) 바로잡음, 공유 이미지 1200×630 JPG, 이미지 사이트맵
+- **AI 검색용**: `/llms.txt`, `/llms-full.txt`, `/llms/*.md`, AI 로봇을 이름으로 허용한 `robots.txt`
+- **IndexNow**: 관리자에서 버튼 하나로 네이버·빙에 바뀐 주소 알리기, 소식 게시 때 자동 알림
+- 관리자: **매장 편의 정보** 입력(사이트 정보), **AI 검색 · 지도 등록** 탭(검색 노출), KPI에 **AI 검색·챗봇 유입**과 **사이트 안에서 찾은 말** 추가
+- 페이지 `<head>`의 구조화 데이터는 이제 빌드가 다시 씁니다. 고칠 때는 `tools/build.mjs`의 `pageLd`와 `lib/seo.js`를 고쳐 주세요.
 
 ### 2026.11 — KPI 메뉴
 - 관리자 화면에 **KPI · 데이터** 메뉴 6개 추가: KPI 한눈에, 페이지·인기 정보, 유입 경로, 클릭·전환, 회원, 모임·커뮤니티 (사용법은 `ADMIN_GUIDE.md`)

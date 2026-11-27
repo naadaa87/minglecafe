@@ -11,23 +11,26 @@ image: store-kiosk
 imageAlt: Self-order kiosk and pickup area at Mingle
 related: en-konkuk-24h-cafe, how-to-use-unmanned-cafe, unmanned-cafe-manners
 cta: store
+answer: At an unmanned café in Korea, you choose your items, pay at a kiosk, collect your drink and clear your own table. At Mingle, near Konkuk University, the kiosk has an English option and takes cards and mobile payment only.
+points: Unmanned means no counter staff, not no upkeep | Cards and mobile payment only; overseas cards may fail | Choose, pay at the kiosk, pick up, then tidy up | Report problems by KakaoTalk with a photo
+updated: 2026-11-27
 ---
 
 At an unmanned café in Korea you do four things yourself: choose, pay at the kiosk, collect your drink, and tidy up when you leave. Nobody greets you at the door, and nobody needs to. The first visit can still feel strange if you are used to ordering from a person, so this guide goes through it slowly, using Mingle, a self-service dessert café near Konkuk University in Seoul, as the example. Every store has its own setup, but the logic is usually the same.
 
-## What "unmanned" actually means
+## What does "unmanned" actually mean?
 
 In Korean these places are called 무인카페 (mu-in kape), which literally means "no-person café". It does not mean nobody looks after the place. At Mingle, the store is checked, restocked and cleaned every day. What you will not find is someone standing behind a counter.
 
 That changes a few things. You cannot ask a barista for a recommendation, so you read labels instead, and payment happens on a screen rather than at a till. If something spills, the next person sees it unless you deal with it. In return you get a place that is open when most other places have closed, where you can sit for hours without anyone wondering when you will leave.
 
-## Before you go
+## What should I check before I go?
 
-Two small things make the first visit easier.
+Two small things are worth sorting out before your first visit: how you will pay, and the address.
 
 Check your payment. Mingle's kiosk accepts cards and mobile payment only, with no cash. Cards issued abroad sometimes fail, and whether yours works depends on the company that issued it. If you have only just arrived in Korea, carry a second card the first time.
 
-Save the address in both formats. Korean addresses have a road-name version and an older lot-number version, and map apps sometimes find one but not the other. For Mingle these are 39, Neungdong-ro 13-gil and 10-1 Hwayang-dong, both in Gwangjin-gu. The [English visit page](/en/visit.html) lists them along with the nearest subway station.
+Save the address in both formats. Korean addresses have a road-name version and an older lot-number version, and map apps sometimes find one but not the other. For Mingle these are 39, Neungdong-ro 13-gil and 10-1 Hwayang-dong, both in Gwangjin-gu. The [English visit page](/en/visit) lists them along with the nearest subway station.
 
 ## Step by step, from the door to the bin
 
@@ -41,7 +44,7 @@ If you have an account, scanning it while logged in adds one stamp per day, and 
 
 Desserts sit in two places. The chilled showcase holds slices of cake, puddings and cup desserts. The shelves hold things that keep at room temperature: cookies, brownies, financiers and madeleines. Each one is wrapped individually, so you can take one to your seat or put it in your bag for later.
 
-The line-up changes, so the [menu page](/menu.html) shows the regular selection, while the showcase shows what is actually there today.
+The line-up changes, so the [menu page](/menu) shows the regular selection, while the showcase shows what is actually there today.
 
 ### Order at the kiosk
 
@@ -49,7 +52,7 @@ Drinks are ordered on the kiosk screen, which has an English option. Choose your
 
 ### Pick up your drink
 
-Once you have paid, the coffee machine in the store makes your drink right away. Wait by the pickup area until it is ready. If you want to see the order of things before you go, the Korean [store page](/store.html) lays out the same three steps: choose, pay, pick up.
+Once you have paid, the coffee machine in the store makes your drink right away. Wait by the pickup area until it is ready. If you want to see the order of things before you go, the Korean [store page](/store) lays out the same three steps: choose, pay, pick up.
 
 ### Sit, or take it with you
 
@@ -78,7 +81,7 @@ A self-service café only stays pleasant when the people using it look after it.
 - Do not save seats for long periods with a bag or laptop when the room is busy.
 - If you see a mess you did not make, a quick message with a photo helps more than you would think.
 
-The details differ from store to store, but once you have done it once, the basic routine carries over. If you are studying near Konkuk and want a place for late nights, the guide to [a 24-hour café near Konkuk University](/guide/en-konkuk-24h-cafe.html) covers the neighbourhood side. People new to the area can also find language exchange plans on the [Global page](/global.html).
+The details differ from store to store, but once you have done it once, the basic routine carries over. If you are studying near Konkuk and want a place for late nights, the guide to [a 24-hour café near Konkuk University](/guide/en-konkuk-24h-cafe) covers the neighbourhood side. People new to the area can also find language exchange plans on the [Global page](/global).
 
 Next time you pass a 무인카페 sign, walk in and order one drink at the kiosk, just to try the steps once. After that, the second visit feels completely ordinary.
 

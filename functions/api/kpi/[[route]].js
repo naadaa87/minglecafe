@@ -270,6 +270,10 @@ export async function onRequestGet(context) {
         `SELECT label, COUNT(*) c, COUNT(DISTINCT vid) u, MAX(path) path FROM an_events
           WHERE kind = 'faq' AND day BETWEEN ? AND ? AND label IS NOT NULL
           GROUP BY label ORDER BY c DESC LIMIT 20`, p.from, p.to)) || [];
+      const searches = (await q.all(
+        `SELECT label, COUNT(*) c, COUNT(DISTINCT vid) u, SUM(CASE WHEN target = 'none' THEN 1 ELSE 0 END) none FROM an_events
+          WHERE kind = 'search' AND day BETWEEN ? AND ? AND label IS NOT NULL
+          GROUP BY label ORDER BY c DESC LIMIT 30`, p.from, p.to)) || [];
       const nf = (await q.all(
         `SELECT path, COUNT(*) c, MAX(prev) prev, MAX(ref_host) ref FROM an_views
           WHERE nf = 1 AND day BETWEEN ? AND ? GROUP BY path ORDER BY c DESC LIMIT 30`, p.from, p.to)) || [];
@@ -282,6 +286,7 @@ export async function onRequestGet(context) {
         guides: pages.filter((r) => r.section === "guide" && r.path !== "/guide/").slice(0, 10),
         news: pages.filter((r) => r.section === "news" && r.path !== "/news/").slice(0, 10),
         faq: faq.map((r) => ({ label: r.label, count: num(r.c), visitors: num(r.u), path: r.path })),
+        searches: searches.map((r) => ({ label: r.label, count: num(r.c), visitors: num(r.u), none: num(r.none) })),
         notFound: nf.map((r) => ({ path: r.path, count: num(r.c), prev: r.prev, ref: r.ref })),
         qr,
       });
@@ -290,7 +295,7 @@ export async function onRequestGet(context) {
     /* ---------------- 유입 경로 ---------------- */
     if (route === "traffic") {
       const W = "day BETWEEN ? AND ?";
-      const [sources, refs, keywords, utm, landing, devices, langs, countries, heat, totals] = await Promise.all([
+      const [sources, refs, keywords, utm, landing, devices, langs, countries, heat, totals, aiLanding] = await Promise.all([
         q.all(`SELECT COALESCE(source,'direct') source, COUNT(*) sessions, COUNT(DISTINCT vid) visitors FROM an_views WHERE entry = 1 AND ${W} GROUP BY source ORDER BY sessions DESC`, p.from, p.to),
         q.all(`SELECT ref_host host, COALESCE(source,'other') source, COUNT(*) c FROM an_views WHERE entry = 1 AND ref_host IS NOT NULL AND ${W} GROUP BY ref_host ORDER BY c DESC LIMIT 25`, p.from, p.to),
         q.all(`SELECT keyword, source, COUNT(*) c FROM an_views WHERE entry = 1 AND keyword IS NOT NULL AND ${W} GROUP BY keyword, source ORDER BY c DESC LIMIT 50`, p.from, p.to),
@@ -301,12 +306,14 @@ export async function onRequestGet(context) {
         q.all(`SELECT COALESCE(country,'') country, COUNT(DISTINCT vid) u FROM an_views WHERE ${W} GROUP BY country ORDER BY u DESC LIMIT 12`, p.from, p.to),
         q.all(`SELECT dow, hour, COUNT(*) c FROM an_views WHERE ${W} GROUP BY dow, hour`, p.from, p.to),
         q.first(`SELECT COUNT(DISTINCT vid) u, COUNT(DISTINCT CASE WHEN is_new = 1 THEN vid END) n, COUNT(DISTINCT CASE WHEN member = 1 THEN vid END) m FROM an_views WHERE ${W}`, p.from, p.to),
+        q.all(`SELECT path, MAX(title) title, MAX(COALESCE(ref_host, utm_source)) host, COUNT(*) c FROM an_views WHERE entry = 1 AND source = 'ai' AND ${W} GROUP BY path ORDER BY c DESC LIMIT 15`, p.from, p.to),
       ]);
       return json({
         ...base,
         sources: sources || [], refs: refs || [], keywords: keywords || [], utm: utm || [],
         landing: landing || [], devices: devices || [], langs: langs || [], countries: countries || [],
         heat: heat || [],
+        aiLanding: aiLanding || [],
         visitors: num(totals && totals.u), newVisitors: num(totals && totals.n), memberVisitors: num(totals && totals.m),
       });
     }

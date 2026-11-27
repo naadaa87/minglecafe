@@ -10,15 +10,15 @@
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="/css/main.css?v=20261118">
-  <link rel="stylesheet" href="/css/admin.css?v=20261118">
+  <link rel="stylesheet" href="/css/main.css?v=20261127">
+  <link rel="stylesheet" href="/css/admin.css?v=20261127">
 </head>
 <body class="adm">
 
 <!-- ============ 로그인 ============ -->
 <div class="adm-login" data-login>
   <div class="adm-login__box">
-    <img src="/img/logo.png?v=20261118" alt="Mingle 밍글" width="106" height="50">
+    <img src="/img/logo.png?v=20261127" alt="Mingle 밍글" width="106" height="50">
     <h1>관리자 로그인</h1>
     <p class="small">홈페이지 관리와 매장 상태 입력은 여기서 합니다.</p>
     <div data-login-msg></div>
@@ -35,7 +35,7 @@
 <!-- ============ 관리 화면 ============ -->
 <div class="adm-app" data-app hidden>
   <aside class="adm-side">
-    <a class="adm-brand" href="/admin/"><img src="/img/logo.png?v=20261118" alt="Mingle" width="84" height="40"><span>관리자</span></a>
+    <a class="adm-brand" href="/admin/"><img src="/img/logo.png?v=20261127" alt="Mingle" width="84" height="40"><span>관리자</span></a>
     <nav class="adm-nav" aria-label="관리 메뉴" data-nav>
       <p class="adm-nav__label">매일</p>
       <button data-go="dash">오늘 할 일</button>
@@ -312,6 +312,7 @@
     <section data-view="seo" hidden>
       <div class="adm-tabs" role="tablist" data-subtabs>
         <button role="tab" data-sub="register" aria-selected="true">검색엔진 등록</button>
+        <button role="tab" data-sub="geo">AI 검색 · 지도 등록</button>
         <button role="tab" data-sub="pages">페이지 문구</button>
         <button role="tab" data-sub="audit">점검</button>
       </div>
@@ -340,6 +341,67 @@
             <li>새 글을 올린 뒤 빨리 검색에 나오게 하고 싶으면 네이버 → 요청 → <b>웹 페이지 수집</b>에 글 주소를 넣으세요.</li>
           </ol>
           <div class="adm-copylist" data-copylist></div>
+        </div>
+      </div>
+
+      <div data-subpanel="geo" hidden>
+        <div class="adm-card">
+          <h2>새 글·바뀐 내용 바로 알리기</h2>
+          <p class="small">글을 새로 올리거나 페이지를 고친 뒤 이 버튼을 누르면, 사이트의 모든 주소를 네이버와 빙(Bing)에 한 번에 알립니다. 검색엔진이 다시 읽으러 오는 시간이 빨라져요. 밍글 소식은 "게시"할 때 자동으로 알리니 따로 누르지 않아도 됩니다.</p>
+          <div class="adm-actions" style="margin-top:12px">
+            <button class="btn btn--primary" type="button" data-indexnow>검색엔진에 지금 알리기</button>
+          </div>
+          <p class="small" data-indexnow-result style="margin-top:10px"></p>
+          <p class="small">구글은 이 방식을 받지 않아요. 구글에는 서치 콘솔의 <b>URL 검사 → 색인 생성 요청</b>을 쓰거나, 사이트맵이 자동으로 읽히기를 기다리면 됩니다.</p>
+        </div>
+
+        <div class="adm-card">
+          <h2>AI 검색(ChatGPT · Perplexity · Gemini 등)에 나오려면</h2>
+          <p class="small">AI는 홈페이지 글, 지도·플레이스 정보, 블로그 후기를 함께 읽고 답을 만듭니다. 홈페이지 쪽 준비는 끝나 있으니, 아래 세 가지만 확인해 주세요.</p>
+          <ol class="adm-steps">
+            <li><b>Cloudflare가 AI 로봇을 막고 있지 않은지 확인</b> — Cloudflare 대시보드에서 <code>hellomingle.kr</code>을 고르고 보안(Security) 설정의 AI 봇·AI 크롤러 관련 항목을 봐 주세요. "차단(Block)"으로 돼 있으면 홈페이지에서 허용해 두어도 AI가 글을 읽지 못합니다. 검색·답변용 로봇은 허용으로 두는 것을 권해요.</li>
+            <li><b>매장 편의 정보 채우기</b> — 와이파이, 화장실, 주차, 역에서 걸리는 시간처럼 손님이 AI에게 자주 묻는 것들이에요. <button class="adm-link" data-go="site">사이트 정보</button> 아래 "매장 편의 정보"에 확인된 내용만 적어 주세요.</li>
+            <li><b>지도·플레이스 정보를 홈페이지와 똑같이 맞추기</b> — 아래 "지도 · 플레이스 등록"을 따라 이름, 주소, 영업시간, 소개글을 같은 표기로 넣습니다. 표기가 서로 다르면 AI가 다른 가게로 볼 수 있어요.</li>
+          </ol>
+          <div class="adm-copylist" data-geo-links></div>
+        </div>
+
+        <div class="adm-card">
+          <h2>지도 · 플레이스 등록</h2>
+          <p class="small">"건대 24시간 카페"처럼 동네 이름이 들어간 검색은 지도 결과가 먼저 나옵니다. 홈페이지만큼 중요해요.</p>
+          <ol class="adm-steps">
+            <li><b>네이버 스마트플레이스</b> (<a href="https://smartplace.naver.com/" target="_blank" rel="noopener">smartplace.naver.com</a>) — 업체 등록 또는 내 업체 관리. 영업시간 "24시간", 홈페이지 주소 <code>https://hellomingle.kr</code>, 메뉴 사진과 매장 사진, 아래 소개글과 대표 키워드를 넣어 주세요. 등록 후 플레이스 주소를 <button class="adm-link" data-go="site">사이트 정보</button>에 저장합니다.</li>
+            <li><b>카카오맵 매장관리</b> (<a href="https://business.kakao.com/" target="_blank" rel="noopener">business.kakao.com</a>) — 카카오맵에 매장을 등록하고 영업시간·홈페이지·사진을 넣습니다. 카카오톡 채널과 연결해 두면 문의로 바로 이어져요.</li>
+            <li><b>구글 비즈니스 프로필</b> (<a href="https://business.google.com/" target="_blank" rel="noopener">business.google.com</a>) — 구글 지도에는 "Mingle"이라는 이름으로 이미 올라와 있고, 2026년 11월 확인 기준 리뷰가 없습니다. 소유자 확인을 한 뒤 이름을 "밍글 무인카페 건대화양점 (Mingle)"으로 맞추고 홈페이지·사진·영업시간을 채워 주세요. 외국인 손님과 AI 검색은 구글 지도를 많이 참고합니다.</li>
+            <li><b>빙 웹마스터 도구</b> (<a href="https://www.bing.com/webmasters" target="_blank" rel="noopener">bing.com/webmasters</a>) — 구글 서치 콘솔 계정으로 가져오기를 누르면 바로 등록됩니다. ChatGPT 검색이 빙의 검색 결과를 함께 참고하는 것으로 알려져 있어 등록해 두는 편이 좋아요.</li>
+            <li><b>후기 부탁하기</b> — 매장 안 QR 옆에 "네이버 플레이스 후기" 안내를 붙여 두세요. 실제 손님 후기가 쌓여야 지도 검색 순위와 AI 추천이 함께 올라갑니다. 대가를 걸고 후기를 받는 것은 각 서비스 정책에 어긋나니 피해 주세요.</li>
+          </ol>
+        </div>
+
+        <div class="adm-card">
+          <h2>어디든 똑같이 쓰는 소개 문구</h2>
+          <p class="small">플레이스·지도·SNS 프로필에 그대로 붙여 넣으세요. 이름과 주소 표기를 한 가지로 통일하는 것이 가장 중요합니다.</p>
+          <p class="adm-label">이름 · 주소 · 영업시간</p>
+          <div class="adm-snippet"><p data-snippet>밍글 무인카페 건대화양점 · 서울 광진구 능동로13길 39 (화양동 10-1) · 24시간 연중무휴</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <p class="adm-label">한 줄 소개</p>
+          <div class="adm-snippet"><p data-snippet>건대입구역 근처 화양동의 24시간 무인 디저트카페. 넓은 좌석과 창가 콘센트 자리, 커피와 케이크·구움과자가 있어요.</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <p class="adm-label">소개글 (플레이스 · 카카오맵)</p>
+          <div class="adm-snippet"><p data-snippet>밍글은 서울 광진구 화양동, 건대입구역 근처에 있는 24시간 무인 디저트카페입니다. 약 30평 매장에 창가 콘센트 자리와 테이블, 소파석이 있고, 키오스크에서 카드나 간편결제로 주문합니다. 커피와 말차 라떼·밀크티·에이드, 조각 케이크와 푸딩, 쿠키·휘낭시에·마들렌 같은 구움과자를 준비해 두었어요. 이용 시간 제한이 없어 밤늦게 공부하거나 작업하기에도 괜찮고, 디저트만 포장해 가셔도 됩니다. 홈페이지(hellomingle.kr)에서 오늘의 메뉴와 동네 게시판 밍글보드, 모임 소식을 볼 수 있어요.</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <p class="adm-label">영문 소개 (구글 비즈니스 프로필)</p>
+          <div class="adm-snippet"><p data-snippet lang="en">Mingle is a 24-hour self-service dessert café near Konkuk University Station in Hwayang-dong, Seoul. Order at the kiosk (card or mobile pay only), enjoy machine-brewed coffee, cakes and baked sweets, and stay as long as you like. Window seats have power outlets.</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <p class="adm-label">대표 키워드 (네이버 플레이스는 다섯 개까지)</p>
+          <div class="adm-snippet"><p data-snippet>건대24시간카페, 건대무인카페, 건대카공, 건대디저트카페, 화양동카페</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+        </div>
+
+        <div class="adm-card">
+          <h2>한 달에 한 번, AI에게 직접 물어보기</h2>
+          <p class="small">아래 질문을 ChatGPT, Perplexity, Gemini, 네이버 검색에 넣어 보고 밍글이 나오는지, 내용이 맞는지 확인해 보세요. 틀린 정보가 나오면 그 내용을 홈페이지 글이나 자주 묻는 질문에 분명하게 적어 주는 것이 가장 빠른 수정 방법입니다. AI 답변에서 넘어온 방문은 <button class="adm-link" data-go="kpi-traffic">KPI → 유입 경로</button>의 "AI 검색·챗봇"에서 볼 수 있어요.</p>
+          <div class="adm-snippet"><p data-snippet>건대입구역 근처에 24시간 하는 카페 있어?</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <div class="adm-snippet"><p data-snippet>건대에서 새벽에 노트북 들고 공부할 만한 카페 추천해 줘</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <div class="adm-snippet"><p data-snippet>밍글 무인카페 건대화양점은 어떤 곳이야? 결제는 어떻게 해?</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <div class="adm-snippet"><p data-snippet>무인카페와 스터디카페는 뭐가 달라?</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <div class="adm-snippet"><p data-snippet>무인 디저트카페 창업하려면 비용이 어떤 항목으로 나뉘어?</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
+          <div class="adm-snippet"><p data-snippet lang="en">Is there a 24-hour café near Konkuk University where I can study?</p><button class="btn btn--ghost btn--sm" type="button" data-copy-snippet>복사</button></div>
         </div>
       </div>
 
@@ -389,6 +451,15 @@
           <div class="adm-actions"><button class="btn btn--primary" type="submit">저장</button></div>
         </form>
       </div>
+
+      <div class="adm-card">
+        <h2>매장 편의 정보</h2>
+        <p class="small">손님이 검색이나 AI에게 가장 많이 묻는 것들이에요. <b>확인된 내용만</b> 적어 주세요. 적은 항목은 저장 후 1분 안에 매장 안내·밍글 소개·자주 묻는 질문에 나타나고, 검색엔진과 AI가 읽는 정보에도 함께 들어갑니다. 비워 둔 항목은 어디에도 나오지 않아요.</p>
+        <form class="adm-form" data-facts-form>
+          <div data-facts-list><p class="small">불러오는 중…</p></div>
+          <div class="adm-actions adm-actions--sticky"><button class="btn btn--primary" type="submit">매장 편의 정보 저장</button></div>
+        </form>
+      </div>
     </section>
 
     <!-- 활동 기록 -->
@@ -404,7 +475,7 @@
 
 <div class="adm-toast" data-toast role="status" aria-live="polite"></div>
 
-<script src="/js/menu-data.js?v=20261118"></script>
-<script type="module" src="/js/admin.js?v=20261118"></script>
+<script src="/js/menu-data.js?v=20261127"></script>
+<script type="module" src="/js/admin.js?v=20261127"></script>
 </body>
 </html>
